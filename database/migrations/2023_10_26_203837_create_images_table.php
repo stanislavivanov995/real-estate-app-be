@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('image');
+            $table->string('filename');
+            $table->string('path');
+            $table->integer('size');
+            $table->string('mime_type');
+            $table->foreignId('to_estate')
+                ->nullable()
+                ->constrained('estates', indexName: 'image_id')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

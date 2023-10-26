@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
-use App\Models\RealEstate;
+use App\Models\Estate;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreEstateRequest;
 
@@ -13,55 +13,57 @@ class RealEstatesController extends Controller
 
     public function list(): ?JsonResponse
     {
-        $list = RealEstate::all();
+        $list = Estate::all();
 
-        return response()->json(['Valid' => $list]);
+        return response()->json(['Estates' => $list]);
     }
 
     public function show(string $id): JsonResponse
     {
-        $realEstate = RealEstate::findOrFail($id);
+        $estate = Estate::findOrFail($id);
 
-        return response()->json(['Valid' => $realEstate]);
+        return response()->json(['Estate' => $estate]);
     }
 
     public function store(StoreEstateRequest $request, Image $image): JsonResponse
     {
         $data = $request->json()->all();
 
-        $realEstate = RealEstate::create($data);
+        $estate = Estate::create($data);
 
         if (count($request->files) > 0) {
-            dd($request->files);
-
             foreach ($request->files as $file) {
                 $file->store('images', 'public');
-                $image = Image::create($file);
-                $id = $image['id'];
-                $realEstate['to_images'] = $id;
+                $image = Image::create([
+                    'filename' => $file->originalName,
+                    'path' => 'public/images/' . $file->originalName,
+                    'size' => $file['size'],
+                    'mime_type' => $file->mimeType,
+                    'to_estate' => $estate['id'],
+                ]);
             }
         }
 
-        return response()->json(['Valid' => $realEstate]);
+        return response()->json(['Estate' => $estate, 'Image' => $image]);
     }
 
     public function update(StoreEstateRequest $request, string $id): JsonResponse
     {
-        $realEstate = RealEstate::findOrFail($id);
+        $estate = Estate::findOrFail($id);
 
         $data = $request->json()->all();
 
-        $realEstate->update($data);
+        $estate->update($data);
 
-        return response()->json(['Valid' => $realEstate]);
+        return response()->json(['Estate' => $estate]);
     }
 
     public function delete(string $id): JsonResponse
     {
-        $realEstate = RealEstate::findOrFail($id);
+        $estate = Estate::findOrFail($id);
 
-        $realEstate->delete();
+        $estate->delete();
 
-        return response()->json(['message' => $realEstate['title'] . ' deleted']);
+        return response()->json(['message' => $estate['title'] . ' deleted']);
     }
 }

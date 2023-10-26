@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('real_estates', function (Blueprint $table) {
+        Schema::create('estates', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id');
             $table->string('title');
@@ -20,10 +20,6 @@ return new class extends Migration
             $table->string('type');
             $table->integer('rooms');
             $table->decimal('price');
-            $table->foreignId('to_images')
-                ->nullable()
-                ->constrained('images')
-                ->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -34,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('real_estates');
+        Schema::dropIfExists('estates');
     }
 };

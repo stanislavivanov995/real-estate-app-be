@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\RealEstate;
+use App\Models\Estate;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        RealEstate::factory(10)->create();
+        Estate::factory(10)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
