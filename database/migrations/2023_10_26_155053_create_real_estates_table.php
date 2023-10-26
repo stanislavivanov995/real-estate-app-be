@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::create('real_estates', function (Blueprint $table) {
@@ -17,12 +20,19 @@ return new class extends Migration
             $table->string('type');
             $table->integer('rooms');
             $table->decimal('price');
-            $table->string('image')->nullable();
+            // $table->foreign('images')
+            //     ->references('id')
+            //     ->on('images')
+            //     ->nullable()
+            //     ->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::dropIfExists('real_estates');
