@@ -20,11 +20,10 @@ return new class extends Migration
             $table->string('type');
             $table->integer('rooms');
             $table->decimal('price');
-            // $table->foreign('images')
-            //     ->references('id')
-            //     ->on('images')
-            //     ->nullable()
-            //     ->onDelete('cascade');
+            $table->foreignId('to_images')
+                ->nullable()
+                ->constrained('images')
+                ->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });
