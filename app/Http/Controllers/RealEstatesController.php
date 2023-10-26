@@ -36,7 +36,7 @@ class RealEstatesController extends Controller
                 $file->store('images', 'public');
                 $image = Image::create([
                     'filename' => $file->originalName,
-                    'path' => 'public/images/' . $file->originalName,
+                    'path' => env('FILESYSTEM_DISK', 'public') . $file->originalName,
                     'size' => $file['size'],
                     'mime_type' => $file->mimeType,
                     'to_estate' => $estate['id'],
