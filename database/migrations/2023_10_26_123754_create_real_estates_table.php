@@ -17,11 +17,12 @@ return new class extends Migration
             $table->string('type');
             $table->integer('rooms');
             $table->decimal('price');
+            $table->string('image')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
     }
-    
+
     public function down(): void
     {
         Schema::dropIfExists('real_estates');
