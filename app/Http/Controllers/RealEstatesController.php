@@ -27,6 +27,7 @@ class RealEstatesController extends Controller
 
     public function store(StoreEstateRequest $request, Image $image): JsonResponse
     {
+        dd($request);
         $data = $request->json()->all();
 
         $estate = Estate::create($data);
