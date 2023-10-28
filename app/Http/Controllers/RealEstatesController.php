@@ -27,25 +27,37 @@ class RealEstatesController extends Controller
 
     public function store(StoreEstateRequest $request, Image $image): JsonResponse
     {
-        dd($request);
         $data = $request->json()->all();
 
         $estate = Estate::create($data);
 
-        if (count($request->files) > 0) {
-            foreach ($request->files as $file) {
-                $file->store('images', 'public');
-                $image = Image::create([
-                    'filename' => $file->originalName,
-                    'path' => env('FILESYSTEM_DISK', 'public') . $file->originalName,
-                    'size' => $file['size'],
-                    'mime_type' => $file->mimeType,
-                    'to_estate' => $estate['id'],
+        // if (count($request->files) > 0) {
+        //     foreach ($request->files as $file) {
+        //         $file->store('images', 'public');
+        //         $image = Image::create([
+        //             'filename' => $file->getClientOriginalName(),
+        //             'path' => env('FILESYSTEM_DISK', 'public') . $file->originalName,
+        //             'size' => $file->getSize(),
+        //             'mime_type' => $file->getMimeType(),
+        //             'to_estate' => $estate->id,
+        //         ]);
+        //     }
+        // }
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $imageFile) {
+                $imagePath = $imageFile->store('images', 'public');
+
+                Image::create([
+                    'filename' => $imageFile->getClientOriginalName(),
+                    'path' => $imagePath,
+                    'size' => $imageFile->getSize(),
+                    'mime_type' => $imageFile->getMimeType(),
+                    'to_estate' => $estate->id,
                 ]);
             }
         }
-
-        return response()->json(['Estate' => $estate, 'Image' => $image]);
+        return response()->json(["success" => true, 'Estate' => $estate, 'Image' => $image]);
     }
 
     public function update(StoreEstateRequest $request, string $id): JsonResponse
