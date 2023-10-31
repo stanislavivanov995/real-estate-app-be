@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Image;
 use App\Models\Estate;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\StoreEstateRequest;
 
 
@@ -27,26 +28,20 @@ class RealEstatesController extends Controller
 
     public function store(StoreEstateRequest $request, Image $image): JsonResponse
     {
-        $data = $request->json()->all();
+        // $data = $request->json()->all();
+        $data = $request->all();
 
         $estate = Estate::create($data);
-
+        
         // if (count($request->files) > 0) {
-        //     foreach ($request->files as $file) {
-        //         $file->store('images', 'public');
-        //         $image = Image::create([
-        //             'filename' => $file->getClientOriginalName(),
-        //             'path' => env('FILESYSTEM_DISK', 'public') . $file->originalName,
-        //             'size' => $file->getSize(),
-        //             'mime_type' => $file->getMimeType(),
-        //             'to_estate' => $estate->id,
-        //         ]);
-        //     }
-        // }
+        //     foreach ($request->files as $file)
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $imageFile) {
-                $imagePath = $imageFile->store('images', 'public');
+                $imageName = time() . '-' . $imageFile->name . $imageFile->extension();
+                dd($imageName);
+                $imagePath = $imageFile->move(public_path('images'), $imageName);
+                // $imagePath = $imageFile->store('images', 'public');
 
                 Image::create([
                     'filename' => $imageFile->getClientOriginalName(),
@@ -57,6 +52,12 @@ class RealEstatesController extends Controller
                 ]);
             }
         }
+
+        // if ($request->hasFile('image')) {
+        //     $imageName = time() . '-' . $request->filename . $request->extension();
+        //     dd($imageName);
+        // }
+
         return response()->json(["success" => true, 'Estate' => $estate, 'Image' => $image]);
     }
 

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('type');
             $table->integer('rooms');
-            $table->decimal('price');
+            $table->integer('price');
             $table->softDeletes();
             $table->timestamps();
         });
