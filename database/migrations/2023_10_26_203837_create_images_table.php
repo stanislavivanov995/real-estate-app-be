@@ -18,7 +18,7 @@ return new class extends Migration
             $table->binary('is_thumbnail');
             $table->foreignId('estate_id')
                 ->nullable()
-                ->constrained('estates', indexName: 'image_id')
+                ->constrained('estates')
                 ->onDelete('cascade');
             $table->timestamps();
         });

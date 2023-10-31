@@ -109,7 +109,7 @@ class RealEstatesController extends Controller
 
 
     // TODO: Delete image files on delete operation
-    public function delete(string $id): JsonResponse
+    public function delete(string $id, Image $image): JsonResponse
     {
         $estate = Estate::findOrFail($id);
 
