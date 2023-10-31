@@ -6,8 +6,8 @@ use App\Models\Image;
 use App\Models\Estate;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\StoreEstateRequest;
+
 
 class RealEstatesController extends Controller
 {
@@ -15,6 +15,7 @@ class RealEstatesController extends Controller
     protected function addImage($request, $estate) {
         if (count($request->files) > 0) {
             foreach ($request->files->all() as $imageFile) {
+                
                 $imageName = time() . '-' . $imageFile->getClientOriginalName();
 
                 $imagePath = $imageFile->move(public_path('images'), $imageName);
@@ -31,9 +32,12 @@ class RealEstatesController extends Controller
         }
     }
 
-    protected function updateImage($request, $estate, $id) {
+
+    protected function updateImage($request, $estate) {
         if (count($request->files) > 0) {
             foreach ($request->files->all() as $imageFile) {
+                #TODO: Check images
+
                 $imageName = time() . '-' . $imageFile->getClientOriginalName();
 
                 $imagePath = $imageFile->move(public_path('images'), $imageName);
@@ -49,6 +53,7 @@ class RealEstatesController extends Controller
             }
         }
     }
+
 
     public function list(): ?JsonResponse
     {
@@ -67,8 +72,6 @@ class RealEstatesController extends Controller
 
     public function store(StoreEstateRequest $request, Image $image): JsonResponse
     {
-        // $data = $request->all();
-        // dd($data);
         $estate = Estate::create([
             'user_id' => $request->user_id,
             'title' => $request->title,
@@ -85,20 +88,8 @@ class RealEstatesController extends Controller
     }
 
 
-    public function imgUpload(Request $request)
-    {
-        
-        if (count($request->files) > 0) {
-            dd($request->files->all()['image1']);
-            $img = $request->image;
-            $imageName = time() . '-' . $img->filename . $img->guessExtension();
-        }
-    }
-
-
     public function update(StoreEstateRequest $request, string $id): JsonResponse
     {
-        dd($request);
         $estate = Estate::findOrFail($id);
 
         $estate->update([
@@ -111,11 +102,13 @@ class RealEstatesController extends Controller
             'price' => $request->price,
         ]);;
 
-        $this->updateImage($request, $estate, $image_ids);
+        $this->updateImage($request, $estate);
 
         return response()->json(['Estate' => $estate]);
     }
 
+
+    // TODO: Delete image files on delete operation
     public function delete(string $id): JsonResponse
     {
         $estate = Estate::findOrFail($id);
