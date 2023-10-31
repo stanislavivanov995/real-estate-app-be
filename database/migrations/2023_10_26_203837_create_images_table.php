@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('filename');
             $table->string('path');
-            $table->integer('size');
-            $table->string('mime_type');
-            $table->foreignId('to_estate')
+            $table->binary('is_thumbnail');
+            $table->foreignId('estate_id')
                 ->nullable()
                 ->constrained('estates', indexName: 'image_id')
                 ->onDelete('cascade');

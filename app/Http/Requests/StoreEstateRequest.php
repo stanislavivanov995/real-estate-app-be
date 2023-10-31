@@ -60,7 +60,7 @@ class StoreEstateRequest extends FormRequest
             'address.required' => 'Address field is required',
             'address.min' => 'Address must contain minimum 2 characters',
             'address.max' => 'Address must contain maximum 200 characters',
-            'type.required' => 'Type of the real estate field is required',
+            'type.required' => 'Type field is required',
             'type.min' => 'Real estate type must contain minimum 2 characters',
             'type.max' => 'Real estate type must contain maximum 100 characters',
             'rooms.required' => 'Rooms field is required',

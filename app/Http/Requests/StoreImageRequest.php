@@ -24,7 +24,10 @@ class StoreImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => 'mimes:jpg,jpeg,png|max:5048',
+            'filename' => 'required|string',
+            'path' => 'required|string',
+            'is_thumbnail' => 'required|binary',
+            'estate_id' => 'required|integer',
         ];
     }
 

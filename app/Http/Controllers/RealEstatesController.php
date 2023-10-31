@@ -4,13 +4,51 @@ namespace App\Http\Controllers;
 
 use App\Models\Image;
 use App\Models\Estate;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\StoreEstateRequest;
 
-
 class RealEstatesController extends Controller
 {
+
+    protected function addImage($request, $estate) {
+        if (count($request->files) > 0) {
+            foreach ($request->files->all() as $imageFile) {
+                $imageName = time() . '-' . $imageFile->getClientOriginalName();
+
+                $imagePath = $imageFile->move(public_path('images'), $imageName);
+
+                $isThumb = explode(".", 'is_thumbnail_'.$imageFile->getClientOriginalName())[0];
+
+                Image::create([
+                    'filename' => $imageName,
+                    'path' => $imagePath,
+                    'is_thumbnail' => $request->$isThumb,
+                    'estate_id' => $estate->id,
+                ]);
+            }
+        }
+    }
+
+    protected function updateImage($request, $estate, $id) {
+        if (count($request->files) > 0) {
+            foreach ($request->files->all() as $imageFile) {
+                $imageName = time() . '-' . $imageFile->getClientOriginalName();
+
+                $imagePath = $imageFile->move(public_path('images'), $imageName);
+
+                $isThumb = explode(".", 'is_thumbnail_'.$imageFile->getClientOriginalName())[0];
+
+                Image::put([
+                    'filename' => $imageName,
+                    'path' => $imagePath,
+                    'is_thumbnail' => $request->$isThumb,
+                    'estate_id' => $estate->id,
+                ]);
+            }
+        }
+    }
 
     public function list(): ?JsonResponse
     {
@@ -26,48 +64,54 @@ class RealEstatesController extends Controller
         return response()->json(['Estate' => $estate]);
     }
 
+
     public function store(StoreEstateRequest $request, Image $image): JsonResponse
     {
-        // $data = $request->json()->all();
-        $data = $request->all();
+        // $data = $request->all();
+        // dd($data);
+        $estate = Estate::create([
+            'user_id' => $request->user_id,
+            'title' => $request->title,
+            'city' => $request->city,
+            'address' => $request->address,
+            'type' => $request->type,
+            'rooms' => $request->rooms,
+            'price' => $request->price,
+        ]);
 
-        $estate = Estate::create($data);
-        
-        // if (count($request->files) > 0) {
-        //     foreach ($request->files as $file)
+        $this->addImage($request, $estate);
 
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $imageFile) {
-                $imageName = time() . '-' . $imageFile->name . $imageFile->extension();
-                dd($imageName);
-                $imagePath = $imageFile->move(public_path('images'), $imageName);
-                // $imagePath = $imageFile->store('images', 'public');
-
-                Image::create([
-                    'filename' => $imageFile->getClientOriginalName(),
-                    'path' => $imagePath,
-                    'size' => $imageFile->getSize(),
-                    'mime_type' => $imageFile->getMimeType(),
-                    'to_estate' => $estate->id,
-                ]);
-            }
-        }
-
-        // if ($request->hasFile('image')) {
-        //     $imageName = time() . '-' . $request->filename . $request->extension();
-        //     dd($imageName);
-        // }
-
-        return response()->json(["success" => true, 'Estate' => $estate, 'Image' => $image]);
+        return response()->json(["success" => true, 'Estate' => $estate]);
     }
+
+
+    public function imgUpload(Request $request)
+    {
+        
+        if (count($request->files) > 0) {
+            dd($request->files->all()['image1']);
+            $img = $request->image;
+            $imageName = time() . '-' . $img->filename . $img->guessExtension();
+        }
+    }
+
 
     public function update(StoreEstateRequest $request, string $id): JsonResponse
     {
+        dd($request);
         $estate = Estate::findOrFail($id);
 
-        $data = $request->json()->all();
+        $estate->update([
+            'user_id' => $request->user_id,
+            'title' => $request->title,
+            'city' => $request->city,
+            'address' => $request->address,
+            'type' => $request->type,
+            'rooms' => $request->rooms,
+            'price' => $request->price,
+        ]);;
 
-        $estate->update($data);
+        $this->updateImage($request, $estate, $image_ids);
 
         return response()->json(['Estate' => $estate]);
     }
