@@ -17,11 +17,11 @@ class RealEstatesController extends Controller
         $list = Estate::all();
         $softDeleted = Estate::onlyTrashed()->get();
 
-        return response()->json(['Estates' => $list, 'SoftDeleted' => $softDeleted]);
+        return response()->json(['Estates' => $list, 'Deleted' => $softDeleted]);
     }
 
 
-    public function show(string $id): JsonResponse
+    public function show(string $id): ?JsonResponse
     {
         $estate = Estate::findOrFail($id);
 
@@ -29,7 +29,7 @@ class RealEstatesController extends Controller
     }
 
 
-    public function store(StoreEstateRequest $request): JsonResponse
+    public function store(StoreEstateRequest $request): ?JsonResponse
     {
         $estate = Estate::create([
             'user_id' => $request->user_id,
@@ -40,8 +40,7 @@ class RealEstatesController extends Controller
             'currency' => $request->currency,
             'latitude' => $request->latitude,
             'longtitude' => $request->longtitude,
-            'category' => $request->category,
-            'softdelete' => $request->softdelete,
+            'category' => $request->category
         ]);
 
         // $this->addImage($request, $estate);
@@ -50,18 +49,20 @@ class RealEstatesController extends Controller
     }
 
 
-    public function update(StoreEstateRequest $request, string $id): JsonResponse
+    public function update(StoreEstateRequest $request, string $id): ?JsonResponse
     {
         $estate = Estate::findOrFail($id);
 
         $estate->update([
             'user_id' => $request->user_id,
-            'title' => $request->title,
-            'city' => $request->city,
-            'address' => $request->address,
-            'type' => $request->type,
+            'name' => $request->name,
+            'description' => $request->description,
             'rooms' => $request->rooms,
             'price' => $request->price,
+            'currency' => $request->currency,
+            'latitude' => $request->latitude,
+            'longtitude' => $request->longtitude,
+            'category' => $request->category
         ]);;
 
         // $this->updateImage($request, $estate);
@@ -70,7 +71,7 @@ class RealEstatesController extends Controller
     }
 
 
-    public function delete(string $id, Image $image): JsonResponse
+    public function delete(string $id, Image $image): ?JsonResponse
     {
         $estate = Estate::findOrFail($id);
 

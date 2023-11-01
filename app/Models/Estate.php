@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Estate extends Model
 {
@@ -33,5 +33,10 @@ class Estate extends Model
     public function get_related_images($id)
     {
         return Image::all()->where('estate_id', '==', $id)->toArray();
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
     }
 }
