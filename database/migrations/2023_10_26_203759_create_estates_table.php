@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('estates', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id');
-            $table->string('title');
-            $table->string('city');
-            $table->string('address');
-            $table->string('type');
+            $table->string('name');
+            $table->string('description');
             $table->integer('rooms');
             $table->integer('price');
+            $table->string('currency');
+            $table->string('latitude');
+            $table->string('longtitude');
+            $table->string('category');
             $table->softDeletes();
             $table->timestamps();
         });

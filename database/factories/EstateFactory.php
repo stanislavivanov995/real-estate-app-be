@@ -10,12 +10,14 @@ class EstateFactory extends Factory
     {
         return [
             'user_id' => random_int(1, 10000),
-            'title' => fake()->company,
-            'city' => fake()->city,
-            'address' => fake()->streetAddress,
-            'type' => fake()->realTextBetween(minNbChars:5, maxNbChars:20),
+            'name' => fake()->company(),
+            'description' => fake()->name,
             'rooms' => fake()->randomDigitNotNull,
             'price' => fake()->randomDigitNotNull,
+            'currency' => fake()->currencyCode,
+            'latitude' => fake()->creditCardNumber,
+            'longtitude' => fake()->creditCardNumber,
+            'category' => fake()->name,
         ];
     }
 }

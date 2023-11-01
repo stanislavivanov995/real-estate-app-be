@@ -2,25 +2,36 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
 class Estate extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+ 
+    protected $dates = ['deleted_at'];
 
     protected $table = 'estates';
 
-    // protected $hidden = ['user_id', 'created_at', 'updated_at', 'deleted_at'];
+    protected $hidden = ['created_at', 'updated_at'];
 
     protected $fillable = [
         'user_id',
-        'title',
-        'city',
-        'address',
-        'type',
+        'name',
+        'description',
         'rooms',
         'price',
+        'currency',
+        'latitude',
+        'longtitude',
+        'category',
     ];
+
+    public function get_related_images($id)
+    {
+        return Image::all()->where('estate_id', '==', $id)->toArray();
+    }
 }

@@ -31,12 +31,14 @@ class StoreEstateRequest extends FormRequest
             TODO: unique fields?
             */
             'user_id' => 'required',
-            'title' => 'required | string | min:2 | max:100',
-            'city' => 'required | string | min:2 | max:100',
-            'address' => 'required | string | min:2 | max:200',
-            'type' => 'required | string | min:2 | max:100',
+            'name' => 'required | string | min:2 | max:100',
+            'description' => 'string',
             'rooms' => 'required | integer',
-            'price' => 'required | decimal:0',
+            'price' => 'required | integer',
+            'currency' => 'required | string',
+            'latitude' => 'string',
+            'longtitude' => 'string',
+            'category' => 'required | string | min:2 | max:100',
         ];
     }
 
@@ -54,15 +56,12 @@ class StoreEstateRequest extends FormRequest
     {
         return [
             'user_id.required' => 'User id field is required',
-            'title.required' => 'Title field is required',
-            'title.min' => 'Title must contain minimum 2 characters',
-            'title.max' => 'Title must contain maximum 100 characters',
-            'address.required' => 'Address field is required',
-            'address.min' => 'Address must contain minimum 2 characters',
-            'address.max' => 'Address must contain maximum 200 characters',
-            'type.required' => 'Type field is required',
-            'type.min' => 'Real estate type must contain minimum 2 characters',
-            'type.max' => 'Real estate type must contain maximum 100 characters',
+            'name.required' => 'Title field is required',
+            'name.min' => 'Title must contain minimum 2 characters',
+            'name.max' => 'Title must contain maximum 100 characters',
+            'category.required' => 'Category field is required',
+            'category.min' => 'Category must contain minimum 2 characters',
+            'category.max' => 'Category must contain maximum 100 characters',
             'rooms.required' => 'Rooms field is required',
             'price.required' => 'Price field is required',
         ];
