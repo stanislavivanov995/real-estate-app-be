@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Image;
 use App\Models\Estate;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreEstateRequest;
 use Illuminate\Support\Facades\File;
@@ -16,8 +15,9 @@ class RealEstatesController extends Controller
     public function list(): ?JsonResponse
     {
         $list = Estate::all();
+        $softDeleted = Estate::onlyTrashed()->get();
 
-        return response()->json(['Estates' => $list]);
+        return response()->json(['Estates' => $list, 'SoftDeleted' => $softDeleted]);
     }
 
 

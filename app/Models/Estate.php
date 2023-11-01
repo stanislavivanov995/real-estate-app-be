@@ -16,7 +16,7 @@ class Estate extends Model
 
     protected $table = 'estates';
 
-    protected $hidden = ['created_at', 'updated_at'];
+    // protected $hidden = ['created_at', 'updated_at'];
 
     protected $fillable = [
         'user_id',
