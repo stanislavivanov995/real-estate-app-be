@@ -18,6 +18,8 @@ class EstateFactory extends Factory
             'latitude' => fake()->creditCardNumber,
             'longtitude' => fake()->creditCardNumber,
             'category' => fake()->name,
+            'arrive_hour' => fake()->time,
+            'leave_hour' => fake()->time
         ];
     }
 }

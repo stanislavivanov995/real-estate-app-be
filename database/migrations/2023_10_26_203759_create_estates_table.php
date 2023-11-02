@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('latitude');
             $table->string('longtitude');
             $table->string('category');
+            $table->time('arrive_hour');
+            $table->time('leave_hour');
             $table->softDeletes();
             $table->timestamps();
         });

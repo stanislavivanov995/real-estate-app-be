@@ -16,7 +16,7 @@ class Estate extends Model
 
     protected $table = 'estates';
 
-    // protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $fillable = [
         'user_id',
@@ -28,6 +28,8 @@ class Estate extends Model
         'latitude',
         'longtitude',
         'category',
+        'arrive_hour',
+        'leave_hour'
     ];
 
     public function get_related_images($id)

@@ -40,7 +40,9 @@ class RealEstatesController extends Controller
             'currency' => $request->currency,
             'latitude' => $request->latitude,
             'longtitude' => $request->longtitude,
-            'category' => $request->category
+            'category' => $request->category,
+            'arrive_hour' => $request->arrive_hour,
+            'leave_hour' => $request->leave_hour,
         ]);
 
         // $this->addImage($request, $estate);
@@ -62,7 +64,9 @@ class RealEstatesController extends Controller
             'currency' => $request->currency,
             'latitude' => $request->latitude,
             'longtitude' => $request->longtitude,
-            'category' => $request->category
+            'category' => $request->category,
+            'arrive_hour' => $request->arrive_hour,
+            'leave_hour' => $request->leave_hour,
         ]);;
 
         // $this->updateImage($request, $estate);

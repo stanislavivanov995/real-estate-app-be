@@ -27,13 +27,13 @@ API requests:
 
 Route::get('/real_estates', [RealEstatesController::class, 'list']);
 
-Route::get('/real_estates/{realEstate}', [RealEstatesController::class, 'show']);
+Route::get('/real_estates/{id}', [RealEstatesController::class, 'show']);
 
 Route::post('/real_estates/create', [RealEstatesController::class, 'store']);
 
-Route::put('real_estates/edit/{realEstate}', [RealEstatesController::class, 'update']);
+Route::put('real_estates/edit/{id}', [RealEstatesController::class, 'update']);
 
-Route::delete('real_estates/delete/{realEstate}', [RealEstatesController::class, 'delete']);
+Route::delete('real_estates/delete/{id}', [RealEstatesController::class, 'delete']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

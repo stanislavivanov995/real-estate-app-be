@@ -39,6 +39,8 @@ class StoreEstateRequest extends FormRequest
             'latitude' => 'string',
             'longtitude' => 'string',
             'category' => 'required | string | min:2 | max:100',
+            'arrive_hour' => 'required | string',
+            'leave_hour' => 'required | string',
         ];
     }
 
@@ -64,6 +66,8 @@ class StoreEstateRequest extends FormRequest
             'category.max' => 'Category must contain maximum 100 characters',
             'rooms.required' => 'Rooms field is required',
             'price.required' => 'Price field is required',
+            'arrive_hour.required' => 'Arrive Hour field is required',
+            'leave_hour.required' => 'Leave Hour field is required'
         ];
     }
 }
