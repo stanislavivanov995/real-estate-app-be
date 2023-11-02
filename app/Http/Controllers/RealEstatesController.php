@@ -92,10 +92,17 @@ class RealEstatesController extends Controller
         if (count($request->files) > 0) {
             foreach ($request->files->all() as $imageFile) {
 
+                /*
+                Create an unique filename
+                */
                 $imageName = time() . '-' . $imageFile->getClientOriginalName();
 
                 $imagePath = $imageFile->move(public_path('images'), $imageName);
 
+                /*
+                Create an unique name for the 'is_thumbnail' attribute.
+                It should be filed (generated) by Front-end in the same way.
+                */
                 $isThumb = explode(".", 'is_thumbnail_' . $imageFile->getClientOriginalName())[0];
 
                 Image::create([

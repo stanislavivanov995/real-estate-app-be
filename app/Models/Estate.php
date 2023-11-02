@@ -11,7 +11,7 @@ class Estate extends Model
 {
     use HasFactory;
     use SoftDeletes;
- 
+
     protected $dates = ['deleted_at'];
 
     protected $table = 'estates';
