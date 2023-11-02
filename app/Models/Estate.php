@@ -2,15 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Estate extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $dates = ['deleted_at'];
 
@@ -32,9 +29,9 @@ class Estate extends Model
         'leave_hour'
     ];
 
-    public function get_related_images($id)
+    public function getRelatedImages(int $id): ?array
     {
-        return Image::all()->where('estate_id', '==', $id)->toArray();
+        return Image::whereEstateId($id)->get()->toArray();
     }
 
     public function images()

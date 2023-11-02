@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('currency');
             $table->string('latitude');
             $table->string('longtitude');
-            $table->string('category');
+            $table->string('category'); // category_id - integer
             $table->time('arrive_hour');
             $table->time('leave_hour');
             $table->softDeletes();

@@ -140,7 +140,7 @@ class RealEstatesController extends Controller
 
     protected function clearImages($estate)
     {
-        $estateImages = $estate->get_related_images($estate->id);
+        $estateImages = $estate->getRelatedImages($estate->id);
 
         foreach ($estateImages as $obj) {
             $img = public_path('images') . '/' . $obj['filename'];
