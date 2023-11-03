@@ -16,12 +16,12 @@ return new class extends Migration
             $table->bigInteger('user_id');
             $table->string('name');
             $table->string('description');
-            $table->integer('rooms');
+            $table->smallInteger('rooms');
             $table->integer('price');
             $table->string('currency');
-            $table->string('latitude');
-            $table->string('longtitude');
-            $table->string('category'); // category_id - integer
+            $table->string('latitude')->nullable();
+            $table->string('longtitude')->nullable();
+            $table->smallInteger('category_id');
             $table->time('arrive_hour');
             $table->time('leave_hour');
             $table->softDeletes();

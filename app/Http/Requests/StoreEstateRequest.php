@@ -30,7 +30,7 @@ class StoreEstateRequest extends FormRequest
             /*
             TODO: unique fields?
             */
-            'user_id' => 'required',
+            'user_id' => 'required | integer',
             'name' => 'required | string | min:2 | max:100',
             'description' => 'string',
             'rooms' => 'required | integer',
@@ -38,7 +38,7 @@ class StoreEstateRequest extends FormRequest
             'currency' => 'required | string',
             'latitude' => 'string',
             'longtitude' => 'string',
-            'category' => 'required | string | min:2 | max:100',
+            'category_id' => 'required | integer',
             'arrive_hour' => 'required | string',
             'leave_hour' => 'required | string',
         ];
@@ -61,9 +61,7 @@ class StoreEstateRequest extends FormRequest
             'name.required' => 'Title field is required',
             'name.min' => 'Title must contain minimum 2 characters',
             'name.max' => 'Title must contain maximum 100 characters',
-            'category.required' => 'Category field is required',
-            'category.min' => 'Category must contain minimum 2 characters',
-            'category.max' => 'Category must contain maximum 100 characters',
+            'category_id.required' => 'Category field is required',
             'rooms.required' => 'Rooms field is required',
             'price.required' => 'Price field is required',
             'arrive_hour.required' => 'Arrive Hour field is required',

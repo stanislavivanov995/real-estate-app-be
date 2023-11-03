@@ -24,7 +24,7 @@ class Estate extends Model
         'currency',
         'latitude',
         'longtitude',
-        'category',
+        'category_id',
         'arrive_hour',
         'leave_hour'
     ];
