@@ -17,7 +17,7 @@ class RealEstatesController extends Controller
         $list = Estate::all();
         $softDeleted = Estate::onlyTrashed()->get();
 
-        return response()->json(['Estates' => $list, 'Deleted' => $softDeleted]);
+        return response()->json(['estates' => $list, 'deleted' => $softDeleted]);
     }
 
 
@@ -25,7 +25,7 @@ class RealEstatesController extends Controller
     {
         $estate = Estate::findOrFail($id);
 
-        return response()->json(['Estate' => $estate]);
+        return response()->json(['estate' => $estate]);
     }
 
 
@@ -47,7 +47,7 @@ class RealEstatesController extends Controller
 
         // $this->addImage($request, $estate);
 
-        return response()->json(["success" => true, 'Estate' => $estate]);
+        return response()->json(["success" => true, 'estate' => $estate]);
     }
 
 
@@ -71,7 +71,7 @@ class RealEstatesController extends Controller
 
         // $this->updateImage($request, $estate);
 
-        return response()->json(['Estate' => $estate]);
+        return response()->json(['estate' => $estate]);
     }
 
 

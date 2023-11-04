@@ -11,7 +11,7 @@ class EstateFactory extends Factory
         return [
             'user_id' => random_int(1, 10000),
             'name' => fake()->company(),
-            'description' => fake()->name,
+            'description' => fake()->text,
             'rooms' => fake()->randomDigitNotNull,
             'price' => fake()->randomDigitNotNull,
             'currency' => fake()->currencyCode,

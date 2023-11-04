@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('user_id');
             $table->string('name');
-            $table->string('description');
+            $table->text('description');
             $table->smallInteger('rooms');
             $table->integer('price');
             $table->string('currency');

@@ -32,7 +32,7 @@ class StoreEstateRequest extends FormRequest
             */
             'user_id' => 'required | integer',
             'name' => 'required | string | min:2 | max:100',
-            'description' => 'string',
+            'description' => 'text',
             'rooms' => 'required | integer',
             'price' => 'required | integer',
             'currency' => 'required | string',
