@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('filename');
             $table->string('path');
-            // $table->binary('is_thumbnail');
+            $table->binary('is_thumbnail');
             $table->foreignId('estate_id')
                 ->nullable()
                 ->constrained('estates')
