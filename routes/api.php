@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RealEstatesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,10 +32,17 @@ Route::get('/real_estates/{id}', [RealEstatesController::class, 'show']);
 
 Route::post('/real_estates/create', [RealEstatesController::class, 'store']);
 
-Route::put('real_estates/edit/{id}', [RealEstatesController::class, 'update']);
+Route::put('/real_estates/edit/{id}', [RealEstatesController::class, 'update']);
 
-Route::delete('real_estates/delete/{id}', [RealEstatesController::class, 'delete']);
+Route::delete('/real_estates/delete/{id}', [RealEstatesController::class, 'delete']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
+Route::post('/register', [AuthController::class, 'register']);
+
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+Route::get('/user', [AuthController::class, 'user']);
+
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });

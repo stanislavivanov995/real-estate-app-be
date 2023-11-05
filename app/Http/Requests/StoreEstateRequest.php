@@ -8,9 +8,6 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreEstateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         /*
@@ -18,21 +15,13 @@ class StoreEstateRequest extends FormRequest
         */
         return true;
     }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
+    
     public function rules(): array
     {
         return [
-            /*
-            TODO: unique fields?
-            */
             'user_id' => 'required | integer',
             'name' => 'required | string | min:2 | max:100',
-            'description' => 'text',
+            'description' => 'string',
             'rooms' => 'required | integer',
             'price' => 'required | integer',
             'currency' => 'required | string',
