@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
 {
-    public function check()
+    public function getCategories()
     {
-        return 'It works!';
+        return response()->json([
+            '1' => 'House',
+            '2' => 'Apartments',
+        ]);
     }
 }
