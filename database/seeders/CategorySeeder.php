@@ -27,7 +27,3 @@ class CategorySeeder extends Seeder
         ]);
     }
 }
-
-/*
-To seed MySQL db, execute once in terminal "sail/php artisan db:seed --class=CategorySeeder" command
-*/
