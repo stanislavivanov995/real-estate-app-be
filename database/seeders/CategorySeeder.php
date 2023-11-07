@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
 
+/*
+Executes authomatically by middleware
+*/
 
 class CategorySeeder extends Seeder
 {
