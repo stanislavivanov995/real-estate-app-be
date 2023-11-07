@@ -13,7 +13,7 @@ class SeedCategoriesMiddleware
         // Check if the categories table is empty
         if (DB::table('categories')->count() === 0) {
             Artisan::call('db:seed', [
-                '--class' => 'CategorySeeder', // Replace with your seeder class
+                '--class' => 'CategorySeeder',
             ]);
         }
         return $next($request);
