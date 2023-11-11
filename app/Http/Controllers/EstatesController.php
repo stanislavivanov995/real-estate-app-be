@@ -8,6 +8,24 @@ use App\Http\Requests\StoreEstateRequest;
 
 class EstatesController extends Controller
 {
+    protected function postRequestFileds($r) {
+        define('fields', [
+            'user_id' => $r->user_id,
+            'name' => $r->name,
+            'description' => $r->description,
+            'price' => $r->price,
+            'currency' => $r->currency,
+            'latitude' => $r->latitude,
+            'longtitude' => $r->longtitude,
+            'category' => $r->category,
+            'rooms' => $r->rooms,
+            'arrive_hour' => $r->arrive_hour,
+            'leave_hour' => $r->leave_hour
+        ]);
+        return fields;
+    }
+
+
     public function list(): ?JsonResponse
     {
         $list = Estate::all();
@@ -23,45 +41,21 @@ class EstatesController extends Controller
 
         return response()->json(['estate' => $estate]);
     }
-
+    
 
     public function store(StoreEstateRequest $request): ?JsonResponse
     {
-        $estate = Estate::create([
-            'user_id' => $request->user_id,
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'currency' => $request->currency,
-            'latitude' => $request->latitude,
-            'longtitude' => $request->longtitude,
-            'category' => $request->category_id,
-            'rooms' => $request->rooms,
-            'arrive_hour' => $request->arrive_hour,
-            'leave_hour' => $request->leave_hour
-        ]);
+        $estate = Estate::create($this->postRequestFileds($request));
 
         return response()->json(["success" => true, 'estate' => $estate]);
     }
-
+    
 
     public function update(StoreEstateRequest $request, string $id): ?JsonResponse
     {
         $estate = Estate::findOrFail($id);
 
-        $estate->update([
-            'user_id' => $request->user_id,
-            'name' => $request->name,
-            'description' => $request->description,
-            'rooms' => $request->rooms,
-            'price' => $request->price,
-            'currency' => $request->currency,
-            'latitude' => $request->latitude,
-            'longtitude' => $request->longtitude,
-            'category_id' => $request->category_id,
-            'arrive_hour' => $request->arrive_hour,
-            'leave_hour' => $request->leave_hour
-        ]);
+        $estate->update($this->postRequestFileds($request));
 
         return response()->json(["success" => true, 'estate' => $estate]);
     }
