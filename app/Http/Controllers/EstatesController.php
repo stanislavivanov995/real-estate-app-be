@@ -6,8 +6,10 @@ use App\Models\Estate;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreEstateRequest;
 
+
 class EstatesController extends Controller
 {
+
     protected function postRequestFileds($r) {
         define('fields', [
             'user_id' => $r->user_id,
