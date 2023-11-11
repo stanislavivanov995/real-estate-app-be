@@ -39,6 +39,6 @@ Route::controller(EstatesController::class)->group(function () {
     Route::get('/real_estates', 'list');
     Route::get('/real_estates/{id}', 'show');
     Route::post('/real_estates/create', 'store');
-    Route::post('/real_estates/edit', 'update');
-    Route::post('/real_estates/delete/{id}', 'delete');
+    Route::put('/real_estates/edit/{id}', 'update');
+    Route::delete('/real_estates/delete/{id}', 'delete');
 });
