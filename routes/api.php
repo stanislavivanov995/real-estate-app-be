@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 /*
 API requests:
+|
+| ESTATES:
 | '/' => 'index'
 | '/real_estates' => 'All real_estates'
 | '/real_estates/{id}' => 'real_estate with id'
@@ -14,9 +16,11 @@ API requests:
 | '/real_estates/edit/{id}' => 'Update real estate with id'
 | '/real_estates/delete/{id}' => 'Delete real estate with id'
 |
+| USER:
 | 'register' => 'Register user'
 | 'login' => 'Login user
 |
+| CATEGORIES
 | 'list-categories' => 'All categories'
 */
 
