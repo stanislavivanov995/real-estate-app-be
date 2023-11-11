@@ -16,6 +16,8 @@ API requests:
 |
 | 'register' => 'Register user'
 | 'login' => 'Login user
+|
+| 'list-categories' => 'All categories'
 */
 
 
