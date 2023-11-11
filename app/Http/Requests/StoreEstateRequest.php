@@ -16,6 +16,7 @@ class StoreEstateRequest extends FormRequest
         return true;
     }
     
+
     public function rules(): array
     {
         return [
@@ -33,6 +34,7 @@ class StoreEstateRequest extends FormRequest
         ];
     }
 
+    
     public function failedValidation(Validator $validator)
     {
         $result = array('Errors' => [
