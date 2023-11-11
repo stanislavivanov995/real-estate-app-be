@@ -35,10 +35,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('/list-categories', [CategoriesController::class, 'getCategories']);
 
-Route::controller(EstatesController::class)->group(function () {
-    Route::get('/real_estates', 'list');
-    Route::get('/real_estates/{id}', 'show');
-    Route::post('/real_estates/create', 'store');
-    Route::put('/real_estates/edit/{id}', 'update');
-    Route::delete('/real_estates/delete/{id}', 'delete');
+Route::controller(EstatesController::class)->prefix('real_estates')->group(function () {
+    Route::get('/', 'list');
+    Route::get('/{id}', 'show');
+    Route::post('/create', 'store');
+    Route::put('/edit/{id}', 'update');
+    Route::delete('/delete/{id}', 'delete');
 });
