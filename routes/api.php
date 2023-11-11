@@ -31,12 +31,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('/list-categories', [CategoriesController::class, 'getCategories']);
 
-Route::get('/real_estates', [EstatesController::class, 'list']);
-
-Route::get('/real_estates/{id}', [EstatesController::class, 'show']);
-
-Route::post('/real_estates/create', [EstatesController::class, 'store']);
-
-Route::put('/real_estates/edit/{id}', [EstatesController::class, 'update']);
-
-Route::delete('/real_estates/delete/{id}', [EstatesController::class, 'delete']);
+Route::controller(EstatesController::class)->group(function () {
+    Route::get('/real_estates', 'list');
+    Route::get('/real_estates/{id}', 'show');
+    Route::post('/real_estates/create', 'store');
+    Route::post('/real_estates/edit', 'update');
+    Route::post('/real_estates/delete/{id}', 'delete');
+});

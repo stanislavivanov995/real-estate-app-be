@@ -10,7 +10,7 @@ class EstatesController extends Controller
 {
     public function list(): ?JsonResponse
     {
-        $list = Estate::all()->orderBy('created_at', 'updated_at', 'desc');
+        $list = Estate::all();
         $softDeleted = Estate::onlyTrashed()->get();
 
         return response()->json(['estates' => $list, 'deleted' => $softDeleted]);
