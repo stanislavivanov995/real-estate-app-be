@@ -13,6 +13,7 @@ class EstatesController extends Controller
     public function list(): ?JsonResponse
     {
         $list = Estate::all();
+        
         $softDeleted = Estate::onlyTrashed()->get();
 
         return response()->json(['estates' => $list, 'deleted' => $softDeleted]);
