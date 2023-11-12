@@ -10,24 +10,6 @@ use App\Http\Requests\StoreEstateRequest;
 class EstatesController extends Controller
 {
 
-    protected function postRequestFileds($r) {
-        define('fields', [
-            'user_id' => $r->user_id,
-            'name' => $r->name,
-            'description' => $r->description,
-            'price' => $r->price,
-            'currency' => $r->currency,
-            'latitude' => $r->latitude,
-            'longtitude' => $r->longtitude,
-            'category' => $r->category,
-            'rooms' => $r->rooms,
-            'arrive_hour' => $r->arrive_hour,
-            'leave_hour' => $r->leave_hour
-        ]);
-        return fields;
-    }
-
-
     public function list(): ?JsonResponse
     {
         $list = Estate::all();
@@ -47,7 +29,7 @@ class EstatesController extends Controller
 
     public function store(StoreEstateRequest $request): ?JsonResponse
     {
-        $estate = Estate::create($this->postRequestFileds($request));
+        $estate = Estate::create($request->all());
 
         return response()->json(["success" => true, 'estate' => $estate]);
     }
@@ -57,7 +39,7 @@ class EstatesController extends Controller
     {
         $estate = Estate::findOrFail($id);
 
-        $estate->update($this->postRequestFileds($request));
+        $estate->update($request->all());
 
         return response()->json(["success" => true, 'estate' => $estate]);
     }
