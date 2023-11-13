@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 TODO: add documentation to readme.md
-
+|
 API requests:
 |
 | ESTATES:
