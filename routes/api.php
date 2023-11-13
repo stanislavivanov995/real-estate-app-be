@@ -13,7 +13,7 @@ API requests:
 | ESTATES:
 | 'api/' => 'index'
 | 'api/real_estates' => 'All real_estates'
-| 'api/real_estates/{id}' => 'real_estate with id'
+| 'api/real_estates/{id}' => 'Show single real estate'
 | 'api/real_estates/create' => 'Create real estate'
 | 'api/real_estates/edit/{id}' => 'Update real estate with id'
 | 'api/real_estates/delete/{id}' => 'Delete real estate with id'
