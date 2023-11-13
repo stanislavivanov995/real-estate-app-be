@@ -6,22 +6,24 @@ use App\Http\Controllers\EstatesController;
 use Illuminate\Support\Facades\Route;
 
 /*
+TODO: add documentation to readme.md
+
 API requests:
 |
 | ESTATES:
-| '/' => 'index'
-| '/real_estates' => 'All real_estates'
-| '/real_estates/{id}' => 'real_estate with id'
-| '/real_estates/create' => 'Create real estate'
-| '/real_estates/edit/{id}' => 'Update real estate with id'
-| '/real_estates/delete/{id}' => 'Delete real estate with id'
+| 'api/' => 'index'
+| 'api/real_estates' => 'All real_estates'
+| 'api/real_estates/{id}' => 'real_estate with id'
+| 'api/real_estates/create' => 'Create real estate'
+| 'api/real_estates/edit/{id}' => 'Update real estate with id'
+| 'api/real_estates/delete/{id}' => 'Delete real estate with id'
 |
 | USER:
-| 'register' => 'Register user'
-| 'login' => 'Login user
+| 'api/register' => 'Register user'
+| 'api/login' => 'Login user
 |
 | CATEGORIES
-| 'list-categories' => 'All categories'
+| 'api/list-categories' => 'All categories'
 */
 
 
