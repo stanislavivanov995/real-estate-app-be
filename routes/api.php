@@ -12,11 +12,11 @@ API requests:
 |
 | ESTATES:
 | 'api/' => 'index'
-| 'api/real_estates' => 'All real_estates'
-| 'api/real_estates/{id}' => 'Show single real estate'
-| 'api/real_estates/create' => 'Create real estate'
-| 'api/real_estates/edit/{id}' => 'Update real estate with id'
-| 'api/real_estates/delete/{id}' => 'Delete real estate with id'
+| 'api/real-estates' => 'List all real estates'
+| 'api/real-estates/{id}' => 'Show single real estate'
+| 'api/real-estates/create' => 'Create real estate'
+| 'api/real-estates/edit/{id}' => 'Update real estate with id'
+| 'api/real-estates/delete/{id}' => 'Delete real estate with id'
 |
 | USER:
 | 'api/register' => 'Register user'
@@ -37,7 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('/list-categories', [CategoriesController::class, 'getCategories']);
 
-Route::controller(EstatesController::class)->prefix('real_estates')->group(function () {
+Route::controller(EstatesController::class)->prefix('real-estates')->group(function () {
     Route::get('/', 'list');
     Route::get('/{id}', 'show');
     Route::post('/create', 'store');
