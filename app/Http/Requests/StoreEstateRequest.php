@@ -24,7 +24,7 @@ class StoreEstateRequest extends FormRequest
             'name' => 'required',
             'price' => 'required',
             'currency' => 'required',
-            'category' => 'required',
+            'category_id' => 'required',
             'rooms' => 'required',
             'arrive_hour' => 'required',
             'leave_hour' => 'required',
@@ -52,7 +52,7 @@ class StoreEstateRequest extends FormRequest
             'name.required' => 'Title field is required',
             'price.required' => 'Price field is required',
             'currency.required' => 'Currency field is required',
-            'category.required' => 'Category field is required',
+            'category_id.required' => 'Category field is required',
             'rooms.required' => 'Rooms field is required',
             'arrive_hour.required' => 'Arrive Hour field is required',
             'leave_hour.required' => 'Leave Hour field is required'
