@@ -54,4 +54,18 @@ class EstatesController extends Controller
 
         return response()->json(["success" => true]);
     }
+
+
+
+    /*
+    TODO: Delete TEST controller
+    */
+    public function getFirstCategory(): JsonResponse
+    {
+        $result = Estate::first()->category_id;
+
+        // dd($result);
+
+        return response()->json($result);
+    }
 }

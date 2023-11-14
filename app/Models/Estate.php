@@ -29,6 +29,6 @@ class Estate extends Model
 
     public function estates()
     {
-        return $this->belongsTo(Category::class, 'id', 'category_id');
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 }
