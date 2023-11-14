@@ -6,7 +6,6 @@ use App\Models\Estate;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreEstateRequest;
 
-
 class EstatesController extends Controller
 {
 
@@ -53,19 +52,5 @@ class EstatesController extends Controller
         $estate->delete();
 
         return response()->json(["success" => true]);
-    }
-
-
-
-    /*
-    TODO: Delete TEST controller
-    */
-    public function getFirstCategory(): JsonResponse
-    {
-        $result = Estate::first()->category_id;
-
-        // dd($result);
-
-        return response()->json($result);
     }
 }
