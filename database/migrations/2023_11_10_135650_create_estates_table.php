@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('user_id');
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->integer('price');
             $table->string('currency');
             $table->string('latitude')->nullable();
