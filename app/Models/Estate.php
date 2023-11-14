@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Category;
 
 class Estate extends Model
 {
@@ -20,9 +21,14 @@ class Estate extends Model
         'currency',
         'latitude',
         'longtitude',
-        'category',
+        'category_id',
         'rooms',
         'arrive_hour',
         'leave_hour'
     ];
+
+    public function estates()
+    {
+        return $this->belongsTo(Category::class, 'id', 'category_id');
+    }
 }
