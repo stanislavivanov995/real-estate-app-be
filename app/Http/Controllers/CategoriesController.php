@@ -11,7 +11,7 @@ class CategoriesController extends Controller
 {
     public function getCategories(): JsonResponse
     {
-        $list = Category::all();
+        $list = ['categories' => Category::all()];
 
         return response()->json($list);
     }
