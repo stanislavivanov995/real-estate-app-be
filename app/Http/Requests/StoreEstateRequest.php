@@ -8,31 +8,30 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreEstateRequest extends FormRequest
 {
+    /*
+    TODO: false when auth users
+     */
     public function authorize(): bool
     {
-        /*
-        TODO: false for production
-        */
         return true;
     }
     
+
     public function rules(): array
     {
         return [
-            'user_id' => 'required | integer',
-            'name' => 'required | string | min:2 | max:100',
-            'description' => 'string',
-            'rooms' => 'required | integer',
-            'price' => 'required | integer',
-            'currency' => 'required | string',
-            'latitude' => 'string',
-            'longtitude' => 'string',
-            'category_id' => 'required | integer',
-            'arrive_hour' => 'required | string',
-            'leave_hour' => 'required | string',
+            'user_id' => 'required',
+            'name' => 'required',
+            'price' => 'required',
+            'currency' => 'required',
+            'category_id' => 'required',
+            'rooms' => 'required',
+            'arrive_hour' => 'required',
+            'leave_hour' => 'required',
         ];
     }
 
+    
     public function failedValidation(Validator $validator)
     {
         $result = array('Errors' => [
@@ -42,17 +41,19 @@ class StoreEstateRequest extends FormRequest
         ]);
         throw new HttpResponseException(response()->json($result));
     }
-
+    
+    /*
+    TODO: Sinchronise messages with Front-end validation
+    */ 
     public function messages()
     {
         return [
             'user_id.required' => 'User id field is required',
             'name.required' => 'Title field is required',
-            'name.min' => 'Title must contain minimum 2 characters',
-            'name.max' => 'Title must contain maximum 100 characters',
+            'price.required' => 'Price field is required',
+            'currency.required' => 'Currency field is required',
             'category_id.required' => 'Category field is required',
             'rooms.required' => 'Rooms field is required',
-            'price.required' => 'Price field is required',
             'arrive_hour.required' => 'Arrive Hour field is required',
             'leave_hour.required' => 'Leave Hour field is required'
         ];

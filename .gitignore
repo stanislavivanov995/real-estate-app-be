@@ -3,7 +3,11 @@
 /public/build
 /public/hot
 /public/storage
+<<<<<<< HEAD
 /public/images
+=======
+public/images
+>>>>>>> main
 /storage/*.key
 /vendor
 .env

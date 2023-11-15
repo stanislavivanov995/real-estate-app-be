@@ -1,21 +1,37 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+<<<<<<< HEAD
 use App\Http\Controllers\RealEstatesController;
 use Illuminate\Http\Request;
+=======
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\EstatesController;
+>>>>>>> main
 use Illuminate\Support\Facades\Route;
 
 /*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
+TODO: add documentation to readme.md
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
+API requests:
 |
+| ESTATES:
+| 'api/' => 'index'
+| 'api/real-estates' => 'List all real estates'
+| 'api/real-estates/{id}' => 'Show single real estate'
+| 'api/real-estates/create' => 'Create real estate'
+| 'api/real-estates/edit/{id}' => 'Update real estate with id'
+| 'api/real-estates/delete/{id}' => 'Delete real estate with id'
+|
+| USER:
+| 'api/register' => 'Register user'
+| 'api/login' => 'Login user
+|
+| CATEGORIES
+| 'api/list-categories' => 'All categories'
 */
 
+<<<<<<< HEAD
 /*
 API requests:
 | '/' => 'index',
@@ -46,3 +62,23 @@ Route::get('/user', [AuthController::class, 'user']);
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+=======
+
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('user', [AuthController::class, 'user']);
+    Route::post('logout', [AuthController::class, 'logout']);
+});
+
+Route::get('/list-categories', [CategoriesController::class, 'getCategories']);
+
+Route::controller(EstatesController::class)->prefix('real-estates')->group(function () {
+    Route::get('/', 'list');
+    Route::get('/{id}', 'show');
+    Route::post('/create', 'store');
+    Route::put('/edit/{id}', 'update');
+    Route::delete('/delete/{id}', 'delete');
+});
+>>>>>>> main

@@ -10,7 +10,11 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
+<<<<<<< HEAD
         "tymon/jwt-auth": "^2.0"
+=======
+        "spatie/laravel-sluggable": "^3.5"
+>>>>>>> main
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
