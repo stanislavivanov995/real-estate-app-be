@@ -63,10 +63,6 @@ services:
                 - ping
             retries: 3
             timeout: 5s
-<<<<<<< HEAD
-    
-=======
->>>>>>> main
 networks:
     sail:
         driver: bridge
