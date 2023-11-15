@@ -17,7 +17,7 @@ class EstateFactory extends Factory
             'currency' => fake()->currencyCode,
             'latitude' => fake()->creditCardNumber,
             'longtitude' => fake()->creditCardNumber,
-            'category_id' => fake()->numberBetween(1, 4),
+            'category_id' => fake()->numberBetween(1, 5),
             'arrive_hour' => fake()->time,
             'leave_hour' => fake()->time
         ];
