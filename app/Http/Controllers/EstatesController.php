@@ -35,10 +35,11 @@ class EstatesController extends Controller
         $list = Estate::all();
         
         $list->map(function ($estate) {
-            return $estate['price'] = $this->convertCurrency($estate, 'EUR');
+            /*
+            TODO: handle hardcoded input - currency
+            */
+            return $estate['price'] = $this->convertCurrency($estate, 'BGN');
         });
-        // $x = $this->convertCurrency($list->find(1), 'EUR');
-        // dd($x);
         
         $softDeleted = Estate::onlyTrashed()->get();
 
