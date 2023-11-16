@@ -14,7 +14,7 @@ class EstateFactory extends Factory
             'description' => fake()->text,
             'rooms' => fake()->randomDigitNotNull,
             'price' => fake()->randomDigitNotNull,
-            'currency' => fake()->currencyCode,
+            'currency' => fake()->randomElement(['BGN', 'USD', 'EUR']),
             'latitude' => fake()->creditCardNumber,
             'longtitude' => fake()->creditCardNumber,
             'category_id' => fake()->numberBetween(1, 5),
