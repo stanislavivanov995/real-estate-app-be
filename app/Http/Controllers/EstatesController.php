@@ -12,7 +12,6 @@ class EstatesController extends Controller
 {
     protected function convertCurrency($estate, $currentCurrency)
     {
-        // EURGBP = (BGNGBP / BGNEUR) = 
         $rates = array();
         $currencyRates = CurrencyRate::all()->toArray();
 
