@@ -5,39 +5,40 @@ namespace App\Http\Controllers;
 use App\Models\Estate;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreEstateRequest;
-use Illuminate\Support\Facades\Http;
+use App\Models\CurrencyRate;
 
 
 class EstatesController extends Controller
 {
-    protected function fetchRates()
+    protected function convertCurrency($estate, $currentCurrency)
     {
-        $currencyRatesAPI = 'https://cdn.moneyconvert.net/api/latest.json';
+        // EURGBP = (BGNGBP / BGNEUR) = 
+        $rates = array();
+        $currencyRates = CurrencyRate::all()->toArray();
 
-        $response = Http::get($currencyRatesAPI);
-
-        $currencyRates = json_decode($response, true);
-
-        $currencyRates = $currencyRates['rates'];
-
-        $baseCurrency = $currencyRates['BGN'];
-
-        $result = array();
-
-        foreach ($currencyRates as $currency=>$rate) {
-            if (in_array($currency, ['USD', 'EUR', 'BGN'])) {
-            $result[$currency] = $rate/$baseCurrency;}
+        foreach ($currencyRates as $data) {
+            $rates[$data['currency']] = $data['rate'];
         }
 
-        return $result;
+        $estateExchRate = $rates[$currentCurrency] / $rates[$estate['currency']];
+
+        $price = intval(round($estate['price'] * $estateExchRate));
+        
+        return $price;
     }
 
 
     public function list(): ?JsonResponse
     {
-        $exchangeData = $this->fetchRates();
+        $exchangeData = CurrencyRate::all();
 
         $list = Estate::all();
+        
+        $list->map(function ($estate) {
+            return $estate['price'] = $this->convertCurrency($estate, 'EUR');
+        });
+        // $x = $this->convertCurrency($list->find(1), 'EUR');
+        // dd($x);
         
         $softDeleted = Estate::onlyTrashed()->get();
 
