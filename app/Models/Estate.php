@@ -27,7 +27,7 @@ class Estate extends Model
         'leave_hour'
     ];
 
-    public function estates()
+    public function categories()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }

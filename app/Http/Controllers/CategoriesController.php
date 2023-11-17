@@ -14,4 +14,12 @@ class CategoriesController extends Controller
 
         return response()->json($list);
     }
+
+    /* Test controller
+    TODO: Delete it
+    */
+    public function getAllCategoryEstates()
+    {
+        return Category::find(3)->estates;
+    }
 }
