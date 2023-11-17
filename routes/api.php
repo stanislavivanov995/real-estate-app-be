@@ -44,3 +44,8 @@ Route::controller(EstatesController::class)->prefix('real-estates')->group(funct
     Route::put('/edit/{id}', 'update');
     Route::delete('/delete/{id}', 'delete');
 });
+
+/*
+TODO: Delete test route
+*/
+Route::get('/real-estates/{id}/reservations', [EstatesController::class, 'estateReservations']);
