@@ -22,6 +22,11 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function userProperties()
+    {
+        return $this->hasMany(Estate::class);
+    }
+
     public function estates()
     {
         return $this->belongsToMany(Estate::class, 'reservations');

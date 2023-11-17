@@ -33,6 +33,8 @@ Route::post('login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [AuthController::class, 'user']);
     Route::post('logout', [AuthController::class, 'logout']);
+    /* TODO: Delete test route? */
+    Route::get('user/properties', [AuthController::class, 'getUserProperties']);
 });
 
 Route::get('/list-categories', [CategoriesController::class, 'getCategories']);
