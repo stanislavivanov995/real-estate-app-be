@@ -6,7 +6,6 @@ use App\Models\CurrencyRate;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 
 class CurrencyRateSeeder extends Seeder

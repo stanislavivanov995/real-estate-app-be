@@ -37,12 +37,12 @@ class EstatesController extends Controller
             /*
             TODO: handle hardcoded input - currency
             */
-            return $estate['price'] = $this->convertCurrency($estate, 'BGN');
+            return $estate['price'] = $this->convertCurrency($estate, 'EUR');
         });
         
         $softDeleted = Estate::onlyTrashed()->get();
 
-        return response()->json(['estates' => $list, 'deleted' => $softDeleted, 'rates' => $exchangeData]);
+        return response()->json(['estates' => $list, 'deleted' => $softDeleted]);
     }
 
 
