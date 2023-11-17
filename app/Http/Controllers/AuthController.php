@@ -65,13 +65,13 @@ class AuthController extends Controller
         return response()->json($properties);
     }
 
-    // public function getUserReservations() {
-    //     try {
-    //         $reservations = Auth::user()->estates;
-    //     } catch (\Exception $e) {
-    //         $reservations = [];
-    //     }
+    public function getUserReservations() {
+        try {
+            $reservations = Auth::user()->estates;
+        } catch (\Exception $e) {
+            $reservations = [];
+        }
 
-    //     return response()->json($reservations);
-    // }
+        return response()->json($reservations);
+    }
 }
