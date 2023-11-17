@@ -54,6 +54,9 @@ class AuthController extends Controller
         ])->withCookie($cookie);
     }
 
+    
+    /* TODO: Delete controllers? ....................... */
+
     public function getUserProperties()
     {
         try {
@@ -74,4 +77,5 @@ class AuthController extends Controller
 
         return response()->json($reservations);
     }
+    /* ................................................. */
 }
