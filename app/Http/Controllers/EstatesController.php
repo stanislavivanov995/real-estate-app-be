@@ -59,7 +59,7 @@ class EstatesController extends Controller
     /*
     TODO: Delete controller?
     */
-    public function estateReservations(string $id): JsonResponse
+    public function getEstateReservations(string $id): JsonResponse
     {
         try {
             $reservations = Estate::find($id)->users;

@@ -46,6 +46,6 @@ Route::controller(EstatesController::class)->prefix('real-estates')->group(funct
 });
 
 /*
-TODO: Delete test route
+TODO: Delete test route?
 */
-Route::get('/real-estates/{id}/reservations', [EstatesController::class, 'estateReservations']);
+Route::get('/real-estates/{id}/reservations', [EstatesController::class, 'getEstateReservations']);
