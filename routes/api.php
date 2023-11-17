@@ -37,11 +37,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('/list-categories', [CategoriesController::class, 'getCategories']);
 
-/* Test route
-TODO: Delete it
-*/
-Route::get('/list-category-estates', [CategoriesController::class, 'getAllCategoryEstates']);
-
 Route::controller(EstatesController::class)->prefix('real-estates')->group(function () {
     Route::get('/', 'list');
     Route::get('/{id}', 'show');
