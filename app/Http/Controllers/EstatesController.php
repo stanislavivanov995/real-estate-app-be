@@ -55,11 +55,18 @@ class EstatesController extends Controller
         return response()->json(["success" => true]);
     }
 
+
     /*
-    TODO: Delete test controller
+    TODO: Delete controller?
     */
-    public function estateReservations(string $id)
+    public function estateReservations(string $id): JsonResponse
     {
-        return Estate::find($id)->users;
+        try {
+            $reservations = Estate::find($id)->users;
+        } catch (\Exception $e) {
+            $reservations = [];
+        }
+
+        return response()->json($reservations);
     }
 }
