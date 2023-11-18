@@ -3,20 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estate;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreEstateRequest;
 
 
 class EstatesController extends Controller
 {
-
-    public function list(): ?JsonResponse
+    
+    protected function filterEstates($category=null, $location=null)
     {
-        $list = Estate::all();
-        
-        $softDeleted = Estate::onlyTrashed()->get();
+        if ($category) {
+            $estatesList = Estate::where('category_id', $category)->get();
+        } elseif ($location) {
+            /* TODO: */
+        } else {
+            $estatesList = Estate::all();
+        }
 
-        return response()->json(['estates' => $list, 'deleted' => $softDeleted]);
+        return $estatesList;
+    }
+
+
+    public function list(Request $request): ?JsonResponse
+    {
+        $category = $request->input('category');
+
+        $location = $request->input('location');
+
+        $list = $this->filterEstates($category, $location);
+
+        return response()->json($list);
     }
 
 
