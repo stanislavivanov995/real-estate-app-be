@@ -10,15 +10,25 @@ use App\Http\Requests\StoreEstateRequest;
 
 class EstatesController extends Controller
 {
-    
-    protected function filterEstates($category=null, $location=null)
+
+    protected function calcEstateDistance()
     {
-        if ($category) {
-            $estatesList = Estate::where('category_id', $category)->get();
-        } elseif ($location) {
-            /* TODO: */
-        } else {
-            $estatesList = Estate::all();
+        // TODO:
+    }
+
+    protected function filterEstates($request)
+    {
+        switch ($request)
+        {
+            case $request->filled('category'):
+                $estatesList = Estate::where('category_id', $request->input(['category']))->get();
+                break;
+
+            case $request->has(['latitude', 'longitude', 'perimeter']):
+                dd($request->input('latitude'), $request->input('longitude'), $request->input('perimeter'));
+
+            default:
+                $estatesList = Estate::all();
         }
 
         return $estatesList;
@@ -27,11 +37,7 @@ class EstatesController extends Controller
 
     public function list(Request $request): ?JsonResponse
     {
-        $category = $request->input('category');
-
-        $location = $request->input('location');
-
-        $list = $this->filterEstates($category, $location);
+        $list = $this->filterEstates($request);
 
         return response()->json($list);
     }
@@ -43,7 +49,7 @@ class EstatesController extends Controller
 
         return response()->json(['estate' => $estate]);
     }
-    
+
 
     public function store(StoreEstateRequest $request): ?JsonResponse
     {
@@ -51,7 +57,7 @@ class EstatesController extends Controller
 
         return response()->json(["success" => true, 'estate' => $estate]);
     }
-    
+
 
     public function update(StoreEstateRequest $request, string $id): ?JsonResponse
     {
