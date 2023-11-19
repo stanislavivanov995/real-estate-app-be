@@ -11,27 +11,63 @@ use App\Http\Requests\StoreEstateRequest;
 class EstatesController extends Controller
 {
 
-    protected function calcEstateDistance()
+    // protected function findInPerimeter($estate, $request, $radius)
+    // {
+    //     return Estate::selectRaw(
+    //         '*, ( 6371 * acos( cos( radians( ? ) )
+    //         * cos( radians( latitude ) )
+    //         * cos( radians( longtitude ) - radians( ? ) )
+    //         + sin( radians( ? ) )
+    //         * sin( radians( latitude ) ) ) ) AS distance',
+    //         [
+    //             $request->latitude,
+    //             $request->longtitude,
+    //             $request->latitude
+    //         ]
+    //     )
+    //         ->having('distance', '<', $radius)
+    //         ->orderBy('distance', 'asc');
+    // }
+
+
+    protected function distance($estate, $request)
     {
-        // TODO:
+        $earthRadius = 6371;
+        
+        $lat1 = $request->latitude;
+        $lon1 = $request->longitude;
+        $lat2 = $estate->latitude;
+        $lon2 = $estate->longtitude;
+
+        $dLat = deg2rad($lat2 - $lat1);
+        $dLon = deg2rad($lon2 - $lon1);
+
+        $a = sin($dLat / 2) * sin($dLat / 2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLon / 2) * sin($dLon / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        $distance = $earthRadius * $c;
+
+        return $distance;
     }
+
 
     protected function filterEstates($request)
     {
-        switch ($request)
-        {
-            case $request->filled('category'):
-                $estatesList = Estate::where('category_id', $request->input(['category']))->get();
-                break;
+        $estates = collect(Estate::all());
 
-            case $request->has(['latitude', 'longitude', 'perimeter']):
-                dd($request->input('latitude'), $request->input('longitude'), $request->input('perimeter'));
-
-            default:
-                $estatesList = Estate::all();
+        if ($request->filled('latitude') && $request->filled('longitude')) {
+            $estates = collect($estates->filter(
+                function ($estate) use ($request) {
+                $radius = $request->query('radius', 0);
+                return $this->distance($estate, $request) <= $radius;
+            }));
         }
 
-        return $estatesList;
+        if ($request->filled('category')) {
+            $estates = $estates->where('category_id', $request->input('category'));
+        }
+
+        return $estates;
     }
 
 
