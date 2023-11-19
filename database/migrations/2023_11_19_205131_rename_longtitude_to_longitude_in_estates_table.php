@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('estates', function (Blueprint $table) {
-            $table->renameColumn('longtitude', 'longitude');
+            $table->renameColumn('longitude', 'longitude');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('estates', function (Blueprint $table) {
-            $table->renameColumn('longitude', 'longtitude');
+            $table->renameColumn('longitude', 'longitude');
         });
     }
 };

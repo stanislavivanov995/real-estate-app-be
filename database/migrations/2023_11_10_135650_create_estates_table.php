@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('price');
             $table->string('currency');
             $table->string('latitude')->nullable();
-            $table->string('longtitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->smallInteger('category');
             $table->smallInteger('rooms');
             $table->time('arrive_hour');

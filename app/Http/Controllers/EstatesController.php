@@ -10,26 +10,6 @@ use App\Http\Requests\StoreEstateRequest;
 
 class EstatesController extends Controller
 {
-
-    // protected function findInPerimeter($estate, $request, $radius)
-    // {
-    //     return Estate::selectRaw(
-    //         '*, ( 6371 * acos( cos( radians( ? ) )
-    //         * cos( radians( latitude ) )
-    //         * cos( radians( longtitude ) - radians( ? ) )
-    //         + sin( radians( ? ) )
-    //         * sin( radians( latitude ) ) ) ) AS distance',
-    //         [
-    //             $request->latitude,
-    //             $request->longtitude,
-    //             $request->latitude
-    //         ]
-    //     )
-    //         ->having('distance', '<', $radius)
-    //         ->orderBy('distance', 'asc');
-    // }
-
-
     protected function distance($estate, $request)
     {
         $earthRadius = 6371;
@@ -37,7 +17,7 @@ class EstatesController extends Controller
         $lat1 = $request->latitude;
         $lon1 = $request->longitude;
         $lat2 = $estate->latitude;
-        $lon2 = $estate->longtitude;
+        $lon2 = $estate->longitude;
 
         $dLat = deg2rad($lat2 - $lat1);
         $dLon = deg2rad($lon2 - $lon1);
