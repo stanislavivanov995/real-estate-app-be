@@ -23,7 +23,6 @@ class User extends Authenticatable
     ];
 
 
-    /* TODO: Delete controllers? .................................. */
     public function userProperties()
     {
         return $this->hasMany(Estate::class);
@@ -33,5 +32,4 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Estate::class, 'reservations');
     }
-    /* ............................................................ */
 }
