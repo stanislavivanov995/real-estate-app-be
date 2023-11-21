@@ -17,9 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('estate_id');
             $table->string('check_in');
             $table->string('check_out');
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('estate_id')->references('id')->on('estates')->onDelete('cascade');
         });
     }
 
