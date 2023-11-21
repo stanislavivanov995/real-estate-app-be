@@ -53,4 +53,29 @@ class AuthController extends Controller
             'message' => 'Success'
         ])->withCookie($cookie);
     }
+
+    
+    /* TODO: Delete controllers? ....................... */
+
+    public function getUserProperties()
+    {
+        try {
+            $properties = Auth::user()->userProperties;
+        } catch (\Exception $e) {
+            $properties = [];
+        }
+
+        return response()->json($properties);
+    }
+
+    public function getUserReservations() {
+        try {
+            $reservations = Auth::user()->estates;
+        } catch (\Exception $e) {
+            $reservations = [];
+        }
+
+        return response()->json($reservations);
+    }
+    /* ................................................. */
 }
