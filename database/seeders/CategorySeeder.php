@@ -10,11 +10,13 @@ class CategorySeeder extends Seeder
 {
     public function run(): void
     {
+        Category::truncate();
+
         Category::create([
             'name' => 'Hotel',
         ]);
         Category::create([
-            'name' => 'Apartament',
+            'name' => 'Apartment',
         ]);
         Category::create([
             'name' => 'House',
@@ -29,5 +31,5 @@ class CategorySeeder extends Seeder
 }
 
 /*
-To seed MySQL db, execute once in terminal "sail/php artisan db:seed --class=CategorySeeder" command
+To seed 'categories' table, execute once in terminal "sail/php artisan db:seed --class=CategorySeeder" command
 */

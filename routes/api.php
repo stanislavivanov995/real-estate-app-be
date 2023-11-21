@@ -12,7 +12,7 @@ API requests:
 |
 | ESTATES:
 | 'api/' => 'index'
-| 'api/real-estates' => 'List all real estates'
+| 'api/real-estates' => 'List all real estates' (&latitude= &longitude= &radius= )
 | 'api/real-estates/{id}' => 'Show single real estate'
 | 'api/real-estates/create' => 'Create real estate'
 | 'api/real-estates/edit/{id}' => 'Update real estate with id'

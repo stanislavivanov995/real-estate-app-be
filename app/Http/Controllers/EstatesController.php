@@ -3,20 +3,59 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estate;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreEstateRequest;
 
 
 class EstatesController extends Controller
 {
-
-    public function list(): ?JsonResponse
+    protected function distance($estate, $request)
     {
-        $list = Estate::all();
+        $earthRadius = 6371;
         
-        $softDeleted = Estate::onlyTrashed()->get();
+        $lat1 = $request->latitude;
+        $lon1 = $request->longitude;
+        $lat2 = $estate->latitude;
+        $lon2 = $estate->longitude;
 
-        return response()->json(['estates' => $list, 'deleted' => $softDeleted]);
+        $dLat = deg2rad($lat2 - $lat1);
+        $dLon = deg2rad($lon2 - $lon1);
+
+        $a = sin($dLat / 2) * sin($dLat / 2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLon / 2) * sin($dLon / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        $distance = $earthRadius * $c;
+
+        return $distance;
+    }
+
+
+    protected function filterEstates($request)
+    {
+        $estates = collect(Estate::all());
+
+        if ($request->filled('latitude') && $request->filled('longitude')) {
+            $estates = collect($estates->filter(
+                function ($estate) use ($request) {
+                $radius = $request->query('radius', 0);
+                return $this->distance($estate, $request) <= $radius;
+            }));
+        }
+
+        if ($request->filled('category')) {
+            $estates = $estates->where('category_id', $request->input('category'));
+        }
+
+        return $estates;
+    }
+
+
+    public function list(Request $request): ?JsonResponse
+    {
+        $list = $this->filterEstates($request);
+
+        return response()->json($list);
     }
 
 
@@ -26,7 +65,7 @@ class EstatesController extends Controller
 
         return response()->json(['estate' => $estate]);
     }
-    
+
 
     public function store(StoreEstateRequest $request): ?JsonResponse
     {
@@ -34,7 +73,7 @@ class EstatesController extends Controller
 
         return response()->json(["success" => true, 'estate' => $estate]);
     }
-    
+
 
     public function update(StoreEstateRequest $request, string $id): ?JsonResponse
     {
