@@ -2,14 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Estate;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\StoreEstateRequest;
 
 
 class EstatesController extends Controller
 {
+    private function uploadImages($imageRequest, $imgId): void
+    {
+        foreach ($imageRequest as $image) {
+
+            $imageName = time() . '_' . $image->getClientOriginalName();
+
+            $imageLocation = public_path('images');
+
+            $image->move($imageLocation, $imageName);
+
+            Image::create([
+                'path' => $imageLocation . '/' . $imageName,
+                'estate_id' => $imgId
+            ]);
+        }
+    }
+
+
     protected function distance($estate, $request)
     {
         $earthRadius = 6371;
@@ -67,9 +87,15 @@ class EstatesController extends Controller
     }
 
 
-    public function store(StoreEstateRequest $request): ?JsonResponse
+    public function store(StoreEstateRequest $request, StoreImageRequest $imgRequest): ?JsonResponse
     {
-        $estate = Estate::create($request->all());
+        $estate = Estate::create($request->except('image'));
+
+        $imageRequest = $imgRequest->file('images');
+
+        if ($imageRequest) {
+            $this->uploadImages($imageRequest, $estate->id);
+        }
 
         return response()->json(["success" => true, 'estate' => $estate]);
     }
