@@ -46,7 +46,7 @@ Route::controller(EstatesController::class)->prefix('real-estates')->group(funct
     Route::get('/', 'list');
     Route::get('/{id}', 'show');
     Route::post('/create', 'store');
-    Route::put('/edit/{id}', 'update');
+    Route::post('/edit/{id}', 'update');
     Route::delete('/delete/{id}', 'delete');
 });
 

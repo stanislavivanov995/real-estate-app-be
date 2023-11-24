@@ -83,7 +83,7 @@ class EstatesController extends Controller
     {
         $estate = Estate::findOrFail($id);
 
-        return response()->json(['estate' => $estate]);
+        return response()->json(['estate' => $estate, 'images' =>$estate->images]);
     }
 
 
@@ -97,17 +97,23 @@ class EstatesController extends Controller
             $this->uploadImages($imageRequest, $estate->id);
         }
 
-        return response()->json(["success" => true, 'estate' => $estate]);
+        return response()->json(["success" => true, 'estate' => $estate, 'images' =>$estate->images]);
     }
 
 
-    public function update(StoreEstateRequest $request, string $id): ?JsonResponse
+    public function update(StoreEstateRequest $request,StoreImageRequest $imgRequest, string $id): ?JsonResponse
     {
         $estate = Estate::findOrFail($id);
 
-        $estate->update($request->all());
+        $estate->update($request->except('images'));
 
-        return response()->json(["success" => true, 'estate' => $estate]);
+        $imageRequest = $imgRequest->file('images');
+
+        if ($imageRequest) {
+            $this->uploadImages($imageRequest, $estate->id);
+        }
+
+        return response()->json(["success" => true, 'estate' => $estate, 'images' =>$estate->images]);
     }
 
 
