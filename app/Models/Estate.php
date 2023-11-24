@@ -16,6 +16,7 @@ class Estate extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'location',
         'description',
         'price',
         'currency',

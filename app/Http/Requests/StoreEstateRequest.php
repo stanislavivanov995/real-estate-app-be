@@ -22,6 +22,7 @@ class StoreEstateRequest extends FormRequest
         return [
             'user_id' => 'required',
             'name' => 'required',
+            'location' => 'required',
             'price' => 'required',
             'currency' => 'required',
             'category_id' => 'required',
