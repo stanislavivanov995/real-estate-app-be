@@ -37,4 +37,9 @@ class Estate extends Model
     {
         return $this->belongsToMany(User::class, 'reservations');
     }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class, 'estate_id', 'id');
+    }
 }
