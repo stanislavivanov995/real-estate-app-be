@@ -25,6 +25,8 @@ class StoreEstateRequest extends FormRequest
             'location' => 'required',
             'price' => 'required|integer|min:0',
             'currency' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
             'category_id' => 'required',
             'rooms' => 'required|integer|min:1',
             'arrive_hour' => 'required',
@@ -43,9 +45,7 @@ class StoreEstateRequest extends FormRequest
         throw new HttpResponseException(response()->json($result));
     }
     
-    /*
-    TODO: Sinchronise messages with Front-end validation
-    */ 
+    
     public function messages()
     {
         return [
@@ -55,6 +55,8 @@ class StoreEstateRequest extends FormRequest
             'price.required' => 'Price is required',
             'price.min' => 'Price must be positive',
             'currency.required' => 'Currency is required',
+            'latitude:required' => 'Latitude is required',
+            'longitude:required' => 'Longitude is required',
             'category_id.required' => 'Category is required',
             'rooms.required' => 'Rooms count is required',
             'rooms.min' => 'Rooms count must be at least one',
