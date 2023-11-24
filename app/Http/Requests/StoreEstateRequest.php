@@ -23,10 +23,10 @@ class StoreEstateRequest extends FormRequest
             'user_id' => 'required',
             'name' => 'required',
             'location' => 'required',
-            'price' => 'required',
+            'price' => 'required|integer|min:0',
             'currency' => 'required',
             'category_id' => 'required',
-            'rooms' => 'required',
+            'rooms' => 'required|integer|min:1',
             'arrive_hour' => 'required',
             'leave_hour' => 'required',
         ];
@@ -51,12 +51,15 @@ class StoreEstateRequest extends FormRequest
         return [
             'user_id.required' => 'User id field is required',
             'name.required' => 'Title field is required',
-            'price.required' => 'Price field is required',
-            'currency.required' => 'Currency field is required',
-            'category_id.required' => 'Category field is required',
-            'rooms.required' => 'Rooms field is required',
-            'arrive_hour.required' => 'Arrive Hour field is required',
-            'leave_hour.required' => 'Leave Hour field is required'
+            'location.required' => 'Location is required',
+            'price.required' => 'Price is required',
+            'price.min:0' => 'Price must be positive',
+            'currency.required' => 'Currency is required',
+            'category_id.required' => 'Category is required',
+            'rooms.required' => 'Rooms count is required',
+            'rooms.required' => 'Rooms count must be positive',
+            'arrive_hour.required' => 'Arrive hour is required',
+            'leave_hour.required' => 'Leave hour is required'
         ];
     }
 }
