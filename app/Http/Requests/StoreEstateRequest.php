@@ -53,11 +53,11 @@ class StoreEstateRequest extends FormRequest
             'name.required' => 'Title field is required',
             'location.required' => 'Location is required',
             'price.required' => 'Price is required',
-            'price.min:0' => 'Price must be positive',
+            'price.min' => 'Price must be positive',
             'currency.required' => 'Currency is required',
             'category_id.required' => 'Category is required',
             'rooms.required' => 'Rooms count is required',
-            'rooms.required' => 'Rooms count must be positive',
+            'rooms.min' => 'Rooms count must be at least one',
             'arrive_hour.required' => 'Arrive hour is required',
             'leave_hour.required' => 'Leave hour is required'
         ];
