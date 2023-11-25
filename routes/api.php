@@ -33,11 +33,8 @@ Route::post('login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [AuthController::class, 'user']);
     Route::post('logout', [AuthController::class, 'logout']);
-
-    /* TODO: Delete test routes? ................................................ */
     Route::get('user/properties', [AuthController::class, 'getUserProperties']);
     Route::get('user/reservations', [AuthController::class, 'getUserReservations']);
-    /* .......................................................................... */
 });
 
 Route::get('/list-categories', [CategoriesController::class, 'getCategories']);
@@ -48,8 +45,5 @@ Route::controller(EstatesController::class)->prefix('real-estates')->group(funct
     Route::post('/create', 'store');
     Route::post('/edit/{id}', 'update'); // TODO: test 'put' method thrue Front-End
     Route::delete('/delete/{id}', 'delete');
+    Route::get('/{id}/reservations', 'getEstateReservations');
 });
-
-
-/* TODO: Delete test route? */
-Route::get('/real-estates/{id}/reservations', [EstatesController::class, 'getEstateReservations']);
