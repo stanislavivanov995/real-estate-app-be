@@ -53,3 +53,7 @@ Route::controller(EstatesController::class)->prefix('real-estates')->group(funct
 
 /* TODO: Delete test route? */
 Route::get('/real-estates/{id}/reservations', [EstatesController::class, 'getEstateReservations']);
+
+// TODO add estates api path inside the middleware sanctum
+/** --------- ESTATES API --------- */
+Route::get('estates',[EstatesController::class,'getMyEstates']);
