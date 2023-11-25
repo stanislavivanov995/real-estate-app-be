@@ -35,7 +35,7 @@ class Estate extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'reservations');
+        return $this->belongsToMany(User::class, 'reservations')->withPivot('check_in', 'check_out');
     }
 
     public function images()
