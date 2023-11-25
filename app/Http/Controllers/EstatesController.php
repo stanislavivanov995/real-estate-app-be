@@ -126,10 +126,7 @@ class EstatesController extends Controller
         return response()->json(["success" => true]);
     }
 
-
-    /*
-    TODO: Delete controller?
-    */
+    
     public function getEstateReservations(string $id): JsonResponse
     {
         try {
