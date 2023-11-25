@@ -13,7 +13,7 @@ class EstatesController extends Controller
     protected function distance($estate, $request)
     {
         $earthRadius = 6371;
-        
+
         $lat1 = $request->latitude;
         $lon1 = $request->longitude;
         $lat2 = $estate->latitude;
@@ -64,6 +64,56 @@ class EstatesController extends Controller
         $estate = Estate::findOrFail($id);
 
         return response()->json(['estate' => $estate]);
+    }
+
+    //GET My Estates
+    public function getMyEstates(Request $request): JsonResponse
+    {
+        try {
+            // Validate the request parameters
+            $request->validate([
+                'page' => 'required|integer|min:1',
+                'size' => 'required|integer|min:1',
+                'user' => 'required|integer',
+            ]);
+
+            // Extract parameters from the request
+            $page = $request->input('page');
+            $size = $request->input('size');
+            $userId = $request->input('user');
+
+            // Retrieve estates from the database based on user ID in a paginated way
+            $estates = Estate::where('user_id', $userId)
+                ->paginate($size, ['*'], 'page', $page);
+
+            // Transform the estates data into the desired JSON format
+            $transformedEstates = $estates->map(function ($estate) {
+                return [
+                    'id' => $estate->id,
+                    'name' => $estate->name,
+                    'lat' => $estate->lat,
+                    'lng' => $estate->lng,
+                    'category' => $estate->category,
+                    'price' => $estate->price,
+                    'currency' => $estate->currency,
+                ];
+            });
+
+            // Return the paginated estates in the desired JSON format
+            return response()->json([
+                'estates' => $transformedEstates,
+                'currentPage' => $estates->currentPage(),
+                'lastPage' => $estates->lastPage(),
+                'totalResults' => $estates->total(),
+            ]);
+
+        } catch (\Exception $exception) {
+            // Handle exceptions and return an error response
+            return response()->json([
+                'message' => 'An error occurred, please try again!',
+                'error' => $exception->getMessage()
+            ], 500);
+        }
     }
 
 
