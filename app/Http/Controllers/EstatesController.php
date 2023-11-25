@@ -129,11 +129,13 @@ class EstatesController extends Controller
     
     public function getEstateReservations(string $id): JsonResponse
     {
-        try {
-            $reservations = Estate::find($id)->users;
-        } catch (\Exception $e) {
-            $reservations = [];
-        }
+        // try {
+        //     $reservations = Estate::find($id)->users;
+        // } catch (\Exception $e) {
+        //     $reservations = [];
+        // }
+
+        $reservations = collect(Estate::find($id)?->users);
 
         return response()->json($reservations);
     }
