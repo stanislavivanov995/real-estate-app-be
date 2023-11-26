@@ -8,17 +8,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
 {
-
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
+
+        Auth::loginUsingId($user->id);
     }
 
     public function login(Request $request)
