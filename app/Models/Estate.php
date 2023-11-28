@@ -58,7 +58,6 @@ class Estate extends Model
 
         if ($files) {
             foreach ($files as $file) {
-                Image::whereFilename($file->filename)->delete();
                 File::delete($file->path);
             }
         }
