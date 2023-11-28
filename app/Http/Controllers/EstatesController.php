@@ -57,7 +57,7 @@ class EstatesController extends Controller
         $estates = collect(Estate::all());
 
         if ($request->filled('latitude') && $request->filled('longitude')) {
-            $estates = collect($estates->filter(
+            $result = collect($estates->filter(
                 function ($estate) use ($request) {
                 $radius = $request->query('radius', 0);
                 return $this->distance($estate, $request) <= $radius;
@@ -65,10 +65,10 @@ class EstatesController extends Controller
         }
 
         if ($request->filled('category')) {
-            $estates = $estates->where('category_id', $request->input('category'));
+            $result = $estates->where('category_id', $request->input('category'));
         }
 
-        return $estates;
+        return $result;
     }
 
 
