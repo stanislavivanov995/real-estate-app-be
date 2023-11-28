@@ -46,4 +46,5 @@ Route::controller(EstatesController::class)->prefix('real-estates')->group(funct
     Route::post('/edit/{id}', 'update'); // TODO: test 'put' method thrue Front-End
     Route::delete('/delete/{id}', 'delete');
     Route::get('/{id}/reservations', 'getEstateReservations');
+    Route::post('/empty-trash', 'emptyTrash');
 });

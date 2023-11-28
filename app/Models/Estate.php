@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Prunable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\File;
+
 
 class Estate extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Prunable;
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
@@ -41,5 +45,22 @@ class Estate extends Model
     public function images()
     {
         return $this->hasMany(Image::class, 'estate_id', 'id');
+    }
+
+    public function prunable(): Builder
+    {
+        return static::where('deleted_at', '!=', null);
+    }
+
+    protected function pruning(): void
+    {
+        $files = $this->images;
+
+        if ($files) {
+            foreach ($files as $file) {
+                Image::whereFilename($file->filename)->delete();
+                File::delete($file->path);
+            }
+        }
     }
 }

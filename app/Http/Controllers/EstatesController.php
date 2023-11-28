@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\StoreEstateRequest;
+use Illuminate\Support\Facades\Artisan;
 
 
 class EstatesController extends Controller
@@ -132,5 +133,13 @@ class EstatesController extends Controller
         $reservations = collect(Estate::find($id)?->users);
 
         return response()->json($reservations);
+    }
+
+
+    public function emptyTrash(): JsonResponse
+    {
+        Artisan::call('model:prune');
+
+        return response()->json('Confirmed');
     }
 }
