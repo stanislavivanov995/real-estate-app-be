@@ -76,7 +76,7 @@ class EstatesController extends Controller
     {
         $list = $this->filterEstates($request);
 
-        return response()->json($list);
+        return response()->json(['estates' => $list]);
     }
 
 
