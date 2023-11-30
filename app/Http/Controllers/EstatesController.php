@@ -86,10 +86,7 @@ class EstatesController extends Controller
 
         return response()->json(['estate' => $estate, 'images' =>$estate->images]);
     }
-
-    /*
-    TODO: Handle this
-    */
+    
 
     public function store(StoreEstateRequest $request, StoreImageRequest $imgRequest): ?JsonResponse
     {

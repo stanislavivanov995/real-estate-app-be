@@ -4,9 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+
+/* TODO:  */
 class StoreImageRequest extends FormRequest
 {
-    /* TODO: Change to false when user auth */
     public function authorize(): bool
     {
         return true;
