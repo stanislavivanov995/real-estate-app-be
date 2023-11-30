@@ -16,7 +16,7 @@ class StoreImageRequest extends FormRequest
     {
         return [
             'images' => 'required',
-            'images.*' => 'mimes:png,jpg,jpeg|max:2048',
+            // 'images.*' => 'mimes:png,jpg,jpeg|max:2048',
         ];
     }
 
@@ -24,7 +24,7 @@ class StoreImageRequest extends FormRequest
     {
         return [
             'images.required' => 'At least one image is required',
-            'images.*.mimes' => 'Available file formats are png, jpg, jpeg',
+            // 'images.*.mimes' => 'Available file formats are png, jpg, jpeg',
             'images.*.max' => 'Maximum file size is 2MB',
         ];
     }

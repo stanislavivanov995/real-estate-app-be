@@ -91,25 +91,17 @@ class EstatesController extends Controller
     TODO: Handle this
     */
 
-    // public function store(StoreEstateRequest $request, StoreImageRequest $imgRequest): ?JsonResponse
-    // {
-    //     $estate = Estate::create($request->except('image'));
-
-    //     $imageRequest = $imgRequest->file('images');
-
-    //     if ($imageRequest) {
-    //         $this->uploadImages($imageRequest, $estate->id);
-    //     }
-
-    //     return response()->json(["success" => true, 'estate' => $estate, 'images' =>$estate->images]);
-    // }
-
-
-    public function store(StoreEstateRequest $request): ?JsonResponse
+    public function store(StoreEstateRequest $request, StoreImageRequest $imgRequest): ?JsonResponse
     {
         $estate = Estate::create($request->except('image'));
 
-        return response()->json(["success" => true, 'estate' => $estate]);
+        $imageRequest = $imgRequest->file('images');
+
+        if ($imageRequest) {
+            $this->uploadImages($imageRequest, $estate->id);
+        }
+
+        return response()->json(["success" => true, 'estate' => $estate, 'images' =>$estate->images]);
     }
 
 
