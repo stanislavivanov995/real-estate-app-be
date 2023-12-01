@@ -12,7 +12,7 @@ API requests:
 |
 | ESTATES:
 | 'api/' => 'index'
-| 'api/real-estates' => 'List all real estates'
+| 'api/real-estates' => 'List all real estates' (&latitude= &longitude= &radius= )
 | 'api/real-estates/{id}' => 'Show single real estate'
 | 'api/real-estates/create' => 'Create real estate'
 | 'api/real-estates/edit/{id}' => 'Update real estate with id'
@@ -33,6 +33,8 @@ Route::post('login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [AuthController::class, 'user']);
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('user/properties', [AuthController::class, 'getUserProperties']);
+    Route::get('user/reservations', [AuthController::class, 'getUserReservations']);
 });
 
 Route::get('/list-categories', [CategoriesController::class, 'getCategories']);
@@ -46,6 +48,8 @@ Route::controller(EstatesController::class)->prefix('real-estates')->group(funct
     Route::get('/', 'list');
     Route::get('/{id}', 'show');
     Route::post('/create', 'store');
-    Route::put('/edit/{id}', 'update');
+    Route::post('/edit/{id}', 'update'); // TODO: test 'put' method thrue Front-End
     Route::delete('/delete/{id}', 'delete');
+    Route::get('/{id}/reservations', 'getEstateReservations');
+    Route::post('/empty-trash', 'emptyTrash');
 });

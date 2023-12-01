@@ -21,4 +21,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+
+    public function userProperties()
+    {
+        return $this->hasMany(Estate::class);
+    }
+
+    public function estates()
+    {
+        return $this->belongsToMany(Estate::class, 'reservations')->withPivot('check_in', 'check_out');
+    }
 }

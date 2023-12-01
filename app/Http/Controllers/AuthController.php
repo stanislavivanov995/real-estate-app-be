@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -52,5 +53,20 @@ class AuthController extends Controller
         return response([
             'message' => 'Success'
         ])->withCookie($cookie);
+    }
+    
+
+    public function getUserProperties(): JsonResponse
+    {
+        $properties = Auth::user()->userProperties;
+
+        return response()->json($properties);
+    }
+
+    public function getUserReservations(): JsonResponse
+    {
+        $reservations = Auth::user()->estates;
+
+        return response()->json($reservations);
     }
 }
