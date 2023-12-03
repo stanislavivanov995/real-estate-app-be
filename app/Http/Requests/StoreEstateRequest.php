@@ -20,7 +20,7 @@ class StoreEstateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required',
+            'user_id' => 'required|integer|min:1',
             'name' => 'required',
             'location' => 'required',
             'price' => 'required|integer|min:0',
