@@ -28,7 +28,8 @@ class Estate extends Model
         'category_id',
         'rooms',
         'arrive_hour',
-        'leave_hour'
+        'leave_hour',
+        'thumb',
     ];
 
     public function categories()

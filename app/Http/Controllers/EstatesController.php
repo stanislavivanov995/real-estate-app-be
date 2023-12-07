@@ -13,22 +13,35 @@ use Illuminate\Support\Facades\Artisan;
 
 class EstatesController extends Controller
 {
+    private $imagesURL;
+
+    function __construct()
+    {
+        $this->imagesURL = '/images/';
+    }
     
-    private function uploadImages($imageRequest, $imgId): void
+    private function uploadImages($imageRequest, $id)
     {
         foreach ($imageRequest as $image) {
 
             $imageName = time() . '_' . $image->getClientOriginalName();
 
             $imageLocation = public_path('images');
+            
+            $imgUrl = asset($this->imagesURL . $imageName);
 
             $image->move($imageLocation, $imageName);
 
             Image::create([
+                'url' => $imgUrl,
                 'path' => $imageLocation . '/' . $imageName,
-                'estate_id' => $imgId
+                'estate_id' => $id
             ]);
         }
+
+        $thumbnailURL = Image::whereEstateId($id)->first()->url;
+
+        return $thumbnailURL;
     }
 
 
@@ -96,7 +109,9 @@ class EstatesController extends Controller
         $imageRequest = $imgRequest->file('images');
 
         if ($imageRequest) {
-            $this->uploadImages($imageRequest, $estate->id);
+            $thumb = $this->uploadImages($imageRequest, $estate->id);
+            $estate->thumb = $thumb;
+            $estate->save();
         }
 
         return response()->json(["success" => true, 'estate' => $estate, 'images' =>$estate->images]);
