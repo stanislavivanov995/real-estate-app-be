@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Artisan;
 
 class EstatesController extends Controller
 {
+    
     private function uploadImages($imageRequest, $imgId): void
     {
         foreach ($imageRequest as $image) {

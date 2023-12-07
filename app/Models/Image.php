@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\File;
 
 
 class Image extends Model
@@ -28,5 +29,10 @@ class Image extends Model
     public function prunable(): Builder
     {
         return static::where('deleted_at', '!=', null);
+    }
+    
+    protected function pruning(): void
+    {
+        File::delete($this->path);
     }
 }

@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\File;
 
 
 class Estate extends Model
@@ -50,16 +49,5 @@ class Estate extends Model
     public function prunable(): Builder
     {
         return static::where('deleted_at', '!=', null);
-    }
-
-    protected function pruning(): void
-    {
-        $files = $this->images;
-
-        if ($files) {
-            foreach ($files as $file) {
-                File::delete($file->path);
-            }
-        }
     }
 }

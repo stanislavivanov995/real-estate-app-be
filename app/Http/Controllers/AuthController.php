@@ -37,7 +37,8 @@ class AuthController extends Controller
         $cookie = cookie('jwt', $token, 60 * 24); // 1 day
 
         return response([
-            'message' => $token
+            'user' => $user,
+            'jwt' => $token
         ])->withCookie($cookie);
     }
 
@@ -54,7 +55,7 @@ class AuthController extends Controller
             'message' => 'Success'
         ])->withCookie($cookie);
     }
-    
+
 
     public function getUserProperties(): JsonResponse
     {
