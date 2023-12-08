@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\EstatesController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,6 +49,12 @@ Route::controller(EstatesController::class)->prefix('real-estates')->group(funct
     Route::post('/create', 'store');
     Route::put('/edit/{id}', 'update');
     Route::delete('/delete/{id}', 'delete');
+});
+
+Route::controller(UserController::class)->prefix('users')->group(function () {
+    Route::get('/{userId}', 'getUserInfo');
+    Route::patch('/update/{userId}', 'update');
+    Route::delete('/delete/{userId}', 'delete');
 });
 
 
