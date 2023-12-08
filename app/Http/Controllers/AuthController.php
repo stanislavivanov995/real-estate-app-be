@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -19,6 +20,8 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
+
+        UserInfo::create(['user_id' => $user->id]);
 
         Auth::loginUsingId($user->id);
     }
@@ -56,7 +59,7 @@ class AuthController extends Controller
         ])->withCookie($cookie);
     }
 
-    
+
     /* TODO: Delete controllers? ....................... */
 
     public function getUserProperties()
