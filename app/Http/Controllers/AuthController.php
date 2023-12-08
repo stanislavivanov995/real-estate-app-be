@@ -32,7 +32,7 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        $token = $user->createToken('token')->plainTextToken;
+        $token = $user->createToken('jwt')->plainTextToken;
 
         $cookie = cookie('jwt', $token, 60 * 24, httpOnly: false); // 1 day
 
