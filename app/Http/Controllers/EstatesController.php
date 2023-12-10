@@ -2,60 +2,79 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Filters\EstatesFilter;
+use App\Models\Image;
 use App\Models\Estate;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\StoreEstateRequest;
+use App\Utils\CalculateDistance;
+use Illuminate\Support\Facades\Artisan;
 
 
 class EstatesController extends Controller
 {
-    protected function distance($estate, $request)
+    use CalculateDistance;
+
+    private $imagesURL;
+    
+
+    function __construct()
     {
-        $earthRadius = 6371;
+        $this->imagesURL = '/images/';
+    }
+    
 
-        $lat1 = $request->latitude;
-        $lon1 = $request->longitude;
-        $lat2 = $estate->latitude;
-        $lon2 = $estate->longitude;
+    private function uploadImages($imageRequest, $id)
+    {
+        foreach ($imageRequest as $image) {
 
-        $dLat = deg2rad($lat2 - $lat1);
-        $dLon = deg2rad($lon2 - $lon1);
+            $imageName = time() . '_' . $image->getClientOriginalName();
 
-        $a = sin($dLat / 2) * sin($dLat / 2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLon / 2) * sin($dLon / 2);
-        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+            $imageLocation = public_path('images');
+            
+            $imgUrl = asset($this->imagesURL . $imageName);
 
-        $distance = $earthRadius * $c;
+            $image->move($imageLocation, $imageName);
 
-        return $distance;
+            Image::create([
+                'url' => $imgUrl,
+                'path' => $imageLocation . '/' . $imageName,
+                'estate_id' => $id
+            ]);
+        }
+
+        $thumbnailURL = Image::whereEstateId($id)->first()->url;
+
+        return $thumbnailURL;
     }
 
 
-    protected function filterEstates($request)
-    {
-        $estates = collect(Estate::all());
-
+    protected function filterByLocation($request, $estates)
+    {      
         if ($request->filled('latitude') && $request->filled('longitude')) {
+
             $estates = collect($estates->filter(
                 function ($estate) use ($request) {
                 $radius = $request->query('radius', 0);
+
                 return $this->distance($estate, $request) <= $radius;
             }));
-        }
-
-        if ($request->filled('category')) {
-            $estates = $estates->where('category_id', $request->input('category'));
         }
 
         return $estates;
     }
 
 
-    public function list(Request $request): ?JsonResponse
+    public function list(EstatesFilter $filter, Request $request): ?JsonResponse
     {
-        $list = $this->filterEstates($request);
 
-        return response()->json($list);
+        $list = Estate::filter($filter)->get();
+
+        $filteredByLocation = $this->filterByLocation($request, $list);
+
+        return response()->json(['estates' => $filteredByLocation]);
     }
 
 
@@ -63,53 +82,39 @@ class EstatesController extends Controller
     {
         $estate = Estate::findOrFail($id);
 
-        return response()->json(['estate' => $estate]);
+        return response()->json(['estate' => $estate, 'images' =>$estate->images]);
     }
+    
 
-    //GET My Estates
-    public function getMyEstates(Request $request): JsonResponse
+    public function store(StoreEstateRequest $request, StoreImageRequest $imgRequest): ?JsonResponse
     {
-        try {
-            // Validate the request parameters
-            $request->validate([
-                'user' => 'required|integer',
-            ]);
+        $estate = Estate::create($request->except('image'));
 
-            // Extract parameters from the request
-            $userId = $request->input('user');
+        $imageRequest = $imgRequest->file('images');
 
-            // Retrieve estates from the database based on user ID in a paginated way
-            $estates = Estate::where('user_id', $userId)
-                ->get(['id','name','price','currency','latitude','longitude','category_id']);
-
-            // Return the paginated estates in the desired JSON format
-            return response()->json($estates);
-
-        } catch (\Exception $exception) {
-            // Handle exceptions and return an error response
-            return response()->json([
-                'message' => 'An error occurred, please try again!',
-                'error' => $exception->getMessage()
-            ], 500);
+        if ($imageRequest) {
+            $thumb = $this->uploadImages($imageRequest, $estate->id);
+            $estate->thumb = $thumb;
+            $estate->save();
         }
+
+        return response()->json(["success" => true, 'estate' => $estate, 'images' =>$estate->images]);
     }
 
 
-    public function store(StoreEstateRequest $request): ?JsonResponse
-    {
-        $estate = Estate::create($request->all());
-
-        return response()->json(["success" => true, 'estate' => $estate]);
-    }
-
-
-    public function update(StoreEstateRequest $request, string $id): ?JsonResponse
+    public function update(StoreEstateRequest $request,StoreImageRequest $imgRequest, string $id): ?JsonResponse
     {
         $estate = Estate::findOrFail($id);
 
-        $estate->update($request->all());
+        $estate->update($request->except('images'));
 
-        return response()->json(["success" => true, 'estate' => $estate]);
+        $imageRequest = $imgRequest->file('images');
+
+        if ($imageRequest) {
+            $this->uploadImages($imageRequest, $estate->id);
+        }
+
+        return response()->json(["success" => true, 'estate' => $estate, 'images' =>$estate->images]);
     }
 
 
@@ -122,18 +127,19 @@ class EstatesController extends Controller
         return response()->json(["success" => true]);
     }
 
-
-    /*
-    TODO: Delete controller?
-    */
+    
     public function getEstateReservations(string $id): JsonResponse
     {
-        try {
-            $reservations = Estate::find($id)->users;
-        } catch (\Exception $e) {
-            $reservations = [];
-        }
+        $reservations = collect(Estate::find($id)?->users);
 
         return response()->json($reservations);
+    }
+
+
+    public function emptyTrash(): JsonResponse
+    {
+        Artisan::call('model:prune');
+
+        return response()->json('Confirmed');
     }
 }
