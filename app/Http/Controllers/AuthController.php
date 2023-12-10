@@ -7,20 +7,29 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
 {
-    public function register(RegisterRequest $request)
+
+    public function register(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            // 'password' => ['required', 'string', 'min:4', 'confirmed'],
+        ]);
+        if($validator->fails()) {
+            return response()->json(['status' => false, 'message' => 'fix errors', 'errors' => $validator->errors()], 500);
+        }
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
         ]);
-
-        Auth::loginUsingId($user->id);
+        return response()->json(['status' => true, 'user' => $user]);
     }
 
     public function login(Request $request)
