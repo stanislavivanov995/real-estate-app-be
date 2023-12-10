@@ -8,33 +8,29 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
-use PHPUnit\Logging\Exception;
+use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
 {
 
     public function register(Request $request)
     {
-        $registeredUser = User::whereEmail($request->email)->first();
-
-        if ($registeredUser) {
-            return response([
-                'success' => false,
-                'message' => 'This email address is already registered'
-            ]);
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            // 'password' => ['required', 'string', 'min:4', 'confirmed'],
+        ]);
+        if($validator->fails()) {
+            return response()->json(['status' => false, 'message' => 'fix errors', 'errors' => $validator->errors()], 500);
         }
-
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
         ]);
-
-        return response([
-            'success' => true,
-            'message' => 'Successfully created',
-        ]);
+        return response()->json(['status' => true, 'user' => $user]);
     }
 
     public function login(Request $request)
