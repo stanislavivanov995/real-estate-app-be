@@ -19,16 +19,28 @@ class EstatesFilter extends Filter
         return $this->builder->where('category_id', 'like', "%{$value}%");
     }
 
+
+    public function min_price(string $value = null): Builder
+    {
+        return $this->builder->where('price', '>=', $value);
+    }
+
     
-    public function price(string $value = null): Builder
+    public function max_price(string $value = null): Builder
     {
         return $this->builder->where('price', '<=', $value);
     }
 
 
-    public function rooms(string $value = null): Builder
+    public function min_rooms(string $value = null): Builder
     {
         return $this->builder->where('rooms', '>=', $value);
+    }
+
+
+    public function max_rooms(string $value = null): Builder
+    {
+        return $this->builder->where('rooms', '<=', $value);
     }
 
     
