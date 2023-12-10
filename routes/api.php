@@ -30,14 +30,14 @@ API requests:
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
+/*
+TODO: user/edit ?
+*/
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [AuthController::class, 'user']);
     Route::post('logout', [AuthController::class, 'logout']);
-
-    /* TODO: Delete test routes? ................................................ */
     Route::get('user/properties', [AuthController::class, 'getUserProperties']);
     Route::get('user/reservations', [AuthController::class, 'getUserReservations']);
-    /* .......................................................................... */
 });
 
 Route::get('/list-categories', [CategoriesController::class, 'getCategories']);
@@ -45,11 +45,9 @@ Route::get('/list-categories', [CategoriesController::class, 'getCategories']);
 Route::controller(EstatesController::class)->prefix('real-estates')->group(function () {
     Route::get('/', 'list');
     Route::get('/{id}', 'show');
-    Route::post('/create', 'store');
-    Route::put('/edit/{id}', 'update');
-    Route::delete('/delete/{id}', 'delete');
+    Route::post('/create', 'store')->middleware('auth:sanctum');
+    Route::post('/edit/{id}', 'update')->middleware('auth:sanctum');
+    Route::delete('/delete/{id}', 'delete')->middleware('auth:sanctum');
+    Route::get('/{id}/reservations', 'getEstateReservations')->middleware('auth:sanctum');
+    Route::post('/empty-trash', 'emptyTrash')->middleware('auth:sanctum');
 });
-
-
-/* TODO: Delete test route? */
-Route::get('/real-estates/{id}/reservations', [EstatesController::class, 'getEstateReservations']);

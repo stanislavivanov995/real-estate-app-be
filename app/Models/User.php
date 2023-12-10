@@ -30,6 +30,6 @@ class User extends Authenticatable
 
     public function estates()
     {
-        return $this->belongsToMany(Estate::class, 'reservations');
+        return $this->belongsToMany(Estate::class, 'reservations')->withPivot('check_in', 'check_out');
     }
 }

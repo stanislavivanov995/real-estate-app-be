@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -42,12 +43,13 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        $token = $user->createToken('token')->plainTextToken;
+        $token = $user->createToken('jwt')->plainTextToken;
 
-        $cookie = cookie('jwt', $token, 60 * 24); // 1 day
+        $cookie = cookie('jwt', $token, 60 * 24, httpOnly: false); // 1 day
 
         return response([
-            'message' => $token
+            'user' => $user,
+            'jwt' => $token
         ])->withCookie($cookie);
     }
 
@@ -56,37 +58,29 @@ class AuthController extends Controller
         return Auth::user();
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         $cookie = Cookie::forget('jwt');
+
+        $request->user()->tokens()->delete();
 
         return response([
             'message' => 'Success'
         ])->withCookie($cookie);
     }
 
-    
-    /* TODO: Delete controllers? ....................... */
 
-    public function getUserProperties()
+    public function getUserProperties(): JsonResponse
     {
-        try {
-            $properties = Auth::user()->userProperties;
-        } catch (\Exception $e) {
-            $properties = [];
-        }
+        $properties = Auth::user()->userProperties;
 
         return response()->json($properties);
     }
 
-    public function getUserReservations() {
-        try {
-            $reservations = Auth::user()->estates;
-        } catch (\Exception $e) {
-            $reservations = [];
-        }
+    public function getUserReservations(): JsonResponse
+    {
+        $reservations = Auth::user()->estates;
 
         return response()->json($reservations);
     }
-    /* ................................................. */
 }
