@@ -2,24 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Filters\EstatesFilter;
 use App\Models\Image;
 use App\Models\Estate;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\StoreEstateRequest;
+use App\Utils\CalculateDistance;
 use Illuminate\Support\Facades\Artisan;
 
 
 class EstatesController extends Controller
 {
+    use CalculateDistance;
+
     private $imagesURL;
+    
 
     function __construct()
     {
         $this->imagesURL = '/images/';
     }
     
+
     private function uploadImages($imageRequest, $id)
     {
         foreach ($imageRequest as $image) {
@@ -45,52 +51,30 @@ class EstatesController extends Controller
     }
 
 
-    protected function distance($estate, $request)
-    {
-        $earthRadius = 6371;
-        
-        $lat1 = $request->latitude;
-        $lon1 = $request->longitude;
-        $lat2 = $estate->latitude;
-        $lon2 = $estate->longitude;
-
-        $dLat = deg2rad($lat2 - $lat1);
-        $dLon = deg2rad($lon2 - $lon1);
-
-        $a = sin($dLat / 2) * sin($dLat / 2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLon / 2) * sin($dLon / 2);
-        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
-
-        $distance = $earthRadius * $c;
-
-        return $distance;
-    }
-
-
-    protected function filterEstates($request)
-    {
-        $estates = collect(Estate::all());
-        
+    protected function filterByLocation($request, $estates)
+    {      
         if ($request->filled('latitude') && $request->filled('longitude')) {
+
             $estates = collect($estates->filter(
                 function ($estate) use ($request) {
                 $radius = $request->query('radius', 0);
+
                 return $this->distance($estate, $request) <= $radius;
             }));
-        }
-
-        if ($request->filled('category')) {
-            $estates = $estates->where('category_id', $request->input('category'));
         }
 
         return $estates;
     }
 
 
-    public function list(Request $request): ?JsonResponse
+    public function list(EstatesFilter $filter, Request $request): ?JsonResponse
     {
-        $list = $this->filterEstates($request);
 
-        return response()->json(['estates' => $list]);
+        $list = Estate::filter($filter)->get();
+
+        $filteredByLocation = $this->filterByLocation($request, $list);
+
+        return response()->json(['estates' => $filteredByLocation]);
     }
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Concerns\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Estate extends Model
 {
-    use HasFactory, SoftDeletes, Prunable;
+    use HasFactory, SoftDeletes, Prunable, Filterable;
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
