@@ -88,7 +88,7 @@ class EstatesController extends Controller
 
     public function store(StoreEstateRequest $request, StoreImageRequest $imgRequest): ?JsonResponse
     {
-        $estate = Estate::create($request->except('image'));
+        $estate = Estate::create($request->except('images'));
 
         $imageRequest = $imgRequest->file('images');
 
