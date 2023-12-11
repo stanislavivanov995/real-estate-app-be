@@ -57,5 +57,5 @@ class EstatesFilter extends Filter
 }
 
 /*
-/estates?sort[by]=price&sort[order]=asc&category=1&description=Stu
+http://localhost:8000/api/real-estates?latitude=42.62572623948879&longitude=23.37424375225898&radius=500&sort[by]=price&sort[order]=asc&min_price=20
 */
