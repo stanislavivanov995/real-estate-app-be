@@ -14,6 +14,12 @@ class EstatesFilter extends Filter
     }
 
 
+    public function name(string $value = null): Builder
+    {
+        return $this->builder->where('name', 'like', "%{$value}%");
+    }
+
+
     public function category(string $value = null): Builder
     {
         return $this->builder->where('category_id', 'like', "%{$value}%");
