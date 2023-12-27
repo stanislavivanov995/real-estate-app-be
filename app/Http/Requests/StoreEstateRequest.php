@@ -8,9 +8,6 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreEstateRequest extends FormRequest
 {
-    /*
-    TODO: false when auth users
-     */
     public function authorize(): bool
     {
         return true;
