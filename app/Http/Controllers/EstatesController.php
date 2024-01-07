@@ -26,29 +26,29 @@ class EstatesController extends Controller
     }
     
 
-    private function uploadImages($imageRequest, $id)
-    {
-        foreach ($imageRequest as $image) {
+    // private function uploadImages($imageRequest, $id)
+    // {
+    //     foreach ($imageRequest as $image) {
 
-            $imageName = time() . '_' . $image->getClientOriginalName();
+    //         $imageName = time() . '_' . $image->getClientOriginalName();
 
-            $imageLocation = public_path('images');
+    //         $imageLocation = public_path('images');
+
+    //         $image->move($imageLocation, $imageName);
             
-            $imgUrl = asset($this->imagesURL . $imageName);
+    //         $imgUrl = asset($this->imagesURL . $imageName);
 
-            $image->move($imageLocation, $imageName);
+    //         Image::create([
+    //             'url' => $imgUrl,
+    //             'path' => $imageLocation . '/' . $imageName,
+    //             'estate_id' => $id
+    //         ]);
+    //     }
 
-            Image::create([
-                'url' => $imgUrl,
-                'path' => $imageLocation . '/' . $imageName,
-                'estate_id' => $id
-            ]);
-        }
+    //     $thumbnailURL = Image::whereEstateId($id)->first()->url;
 
-        $thumbnailURL = Image::whereEstateId($id)->first()->url;
-
-        return $thumbnailURL;
-    }
+    //     return $thumbnailURL;
+    // }
 
 
     protected function filterByLocation($request, $estates)
@@ -88,16 +88,37 @@ class EstatesController extends Controller
 
     public function store(StoreEstateRequest $request, StoreImageRequest $imgRequest): ?JsonResponse
     {
-
         $estate = Estate::create($request->except('images'));
 
-        $imageRequest = $imgRequest->files;
+        $imageRequest = $imgRequest->files->all()['images'];
 
-        if ($imageRequest) {
-            $thumb = $this->uploadImages($imageRequest, $estate->id);
-            $estate->thumb = $thumb;
-            $estate->save();
+        foreach ($imageRequest as $image) {
+
+            $imageName = time() . '_' . $image->getClientOriginalName();
+
+            $imageLocation = public_path('images');
+
+            $image->move($imageLocation, $imageName);
+            
+            $imgUrl = asset($this->imagesURL . $imageName);
+
+            Image::create([
+                'url' => $imgUrl,
+                'path' => $imageLocation . '/' . $imageName,
+                'estate_id' => $estate->id
+            ]);
         }
+
+        // $thumbnailURL = Image::whereEstateId($estate->id)->first()->url;
+
+        // if ($imageRequest) {
+            
+        //     $thumb = $thumbnailURL;
+
+        //     $estate->thumb = $thumb;
+            
+        //     $estate->save();
+        // }
 
         return response()->json(["success" => true, 'estate' => $estate, 'images' =>$estate->images]);
     }
