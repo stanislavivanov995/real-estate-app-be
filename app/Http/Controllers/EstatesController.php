@@ -8,16 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\StoreEstateRequest;
-<<<<<<< HEAD
 use App\Models\CurrencyRate;
-=======
 use Illuminate\Support\Facades\Artisan;
->>>>>>> origin/feature/book-41
 
 
 class EstatesController extends Controller
 {
-<<<<<<< HEAD
     protected function convertCurrency($estate, $currentCurrency)
     {
         $rates = array();
@@ -30,49 +26,31 @@ class EstatesController extends Controller
         $estateExchRate = $rates[$currentCurrency] / $rates[$estate['currency']];
 
         $price = intval(round($estate['price'] * $estateExchRate));
-        
+
         return $price;
     }
 
 
-    public function list(): ?JsonResponse
-    {
-        $exchangeData = CurrencyRate::all();
+    // public function list(): ?JsonResponse
+    // {
+    //     $exchangeData = CurrencyRate::all();
 
-        $list = Estate::all();
-        
-        $list->map(function ($estate) {
-            /*
-            TODO: handle hardcoded input - currency
-            */
-            return $estate['price'] = $this->convertCurrency($estate, 'EUR');
-        });
-        
-        $softDeleted = Estate::onlyTrashed()->get();
-=======
-    private function uploadImages($imageRequest, $imgId): void
-    {
-        foreach ($imageRequest as $image) {
->>>>>>> origin/feature/book-41
+    //     $list = Estate::all();
 
-            $imageName = time() . '_' . $image->getClientOriginalName();
+    //     $list->map(function ($estate) {
+    //         /*
+    //         TODO: handle hardcoded input - currency
+    //         */
+    //         return $estate['price'] = $this->convertCurrency($estate, 'EUR');
+    //     });
+    // }
 
-            $imageLocation = public_path('images');
-
-            $image->move($imageLocation, $imageName);
-
-            Image::create([
-                'path' => $imageLocation . '/' . $imageName,
-                'estate_id' => $imgId
-            ]);
-        }
-    }
 
 
     protected function distance($estate, $request)
     {
         $earthRadius = 6371;
-        
+
         $lat1 = $request->latitude;
         $lon1 = $request->longitude;
         $lat2 = $estate->latitude;
@@ -93,13 +71,14 @@ class EstatesController extends Controller
     protected function filterEstates($request)
     {
         $estates = collect(Estate::all());
-        
+
         if ($request->filled('latitude') && $request->filled('longitude')) {
             $estates = collect($estates->filter(
                 function ($estate) use ($request) {
-                $radius = $request->query('radius', 0);
-                return $this->distance($estate, $request) <= $radius;
-            }));
+                    $radius = $request->query('radius', 0);
+                    return $this->distance($estate, $request) <= $radius;
+                }
+            ));
         }
 
         if ($request->filled('category')) {
@@ -122,9 +101,9 @@ class EstatesController extends Controller
     {
         $estate = Estate::findOrFail($id);
 
-        return response()->json(['estate' => $estate, 'images' =>$estate->images]);
+        return response()->json(['estate' => $estate, 'images' => $estate->images]);
     }
-    
+
 
     public function store(StoreEstateRequest $request, StoreImageRequest $imgRequest): ?JsonResponse
     {
@@ -136,11 +115,11 @@ class EstatesController extends Controller
             $this->uploadImages($imageRequest, $estate->id);
         }
 
-        return response()->json(["success" => true, 'estate' => $estate, 'images' =>$estate->images]);
+        return response()->json(["success" => true, 'estate' => $estate, 'images' => $estate->images]);
     }
 
 
-    public function update(StoreEstateRequest $request,StoreImageRequest $imgRequest, string $id): ?JsonResponse
+    public function update(StoreEstateRequest $request, StoreImageRequest $imgRequest, string $id): ?JsonResponse
     {
         $estate = Estate::findOrFail($id);
 
@@ -152,7 +131,7 @@ class EstatesController extends Controller
             $this->uploadImages($imageRequest, $estate->id);
         }
 
-        return response()->json(["success" => true, 'estate' => $estate, 'images' =>$estate->images]);
+        return response()->json(["success" => true, 'estate' => $estate, 'images' => $estate->images]);
     }
 
 
@@ -165,7 +144,7 @@ class EstatesController extends Controller
         return response()->json(["success" => true]);
     }
 
-    
+
     public function getEstateReservations(string $id): JsonResponse
     {
         $reservations = collect(Estate::find($id)?->users);
